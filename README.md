@@ -1,5 +1,5 @@
 
-#Automatic Generation of Luanalysis Definitions for Factorio
+# Automatic Generation of Luanalysis Definitions for Factorio
 
 
 [Luanalysis](https://github.com/Benjamin-Dobell/IntelliJ-Luanalysis) is an excellent Lua plugin for IntelliJ IDEA.
