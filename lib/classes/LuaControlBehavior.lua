@@ -23,11 +23,14 @@ control_behavior.entity = nil
 
 
 
---- @overload fun(wire: defines_wire_type)
+--- @overload fun(wire: defines_wire_type): LuaCircuitNetwork
+--- 
 --- @param wire defines_wire_type       
 --- @param circuit_connector defines_circuit_connector_id | nil (Optional) 
+--- @return LuaCircuitNetwork            The circuit network or nil.
 function control_behavior.get_circuit_network(wire, circuit_connector)
     wire = nil
     circuit_connector = nil
+    return nil
 end
 

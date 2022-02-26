@@ -34,7 +34,8 @@ end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function random_generator.help()
     return nil
 end

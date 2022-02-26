@@ -37,6 +37,12 @@ control.force = nil
 ---  (RW)
 --- The currently selected entity; `nil` if none. Assigning an entity will select it if selectable otherwise clears
 --- selection.
+--- 
+--- May raise the following events:
+---  - on_selected_entity_changed:
+---    @see on_selected_entity_changed@
+---    Raised instantly, conditionally.
+---    Raised when a selectable entity is written to this attribute.
 control.selected = nil
 
 --- @type LuaEntity | LuaItemStack | LuaEquipment | LuaEquipmentGrid | LuaPlayer | LuaGuiElement | defines_gui_type
@@ -46,6 +52,12 @@ control.selected = nil
 --- pressed. If this attribute is not `nil`, and a new GUI is written to it, the existing one will be asked to close.
 --- 
 --- @see on_gui_closed @
+--- 
+--- May raise the following events:
+---  - on_gui_opened:
+---    @see on_gui_opened@
+---    Raised instantly, conditionally.
+---    Raised when writing a valid GUI target to this attribute.
 control.opened = nil
 
 --- @type uint
@@ -250,13 +262,16 @@ control.character_mining_progress = nil
 --- module slots or logistic trash slots.
 --- 
 --- @param inventory defines_inventory  
+--- @return LuaInventory                 The inventory or `nil` if none with the given index was found.
 function control.get_inventory(inventory)
     inventory = nil
+    return nil
 end
 
 
 --- Gets the main inventory for this character or player if this is a character or player.
---- @return nil                         
+--- 
+--- @return LuaInventory                 The inventory or `nil` if this entity is not a character or player.
 function control.get_main_inventory()
     return nil
 end
@@ -265,8 +280,10 @@ end
 --- Can at least some items be inserted?
 --- 
 --- @param items ItemStackIdentification
+--- @return boolean                      `true` if at least a part of the given items could be inserted into this inventory.
 function control.can_insert(items)
     items = nil
+    return nil
 end
 
 
@@ -274,8 +291,10 @@ end
 --- chosen automatically.
 --- 
 --- @param items ItemStackIdentification
+--- @return uint                         The number of items that were actually inserted.
 function control.insert(items)
     items = nil
+    return nil
 end
 
 
@@ -298,7 +317,8 @@ end
 
 
 --- Removes the arrow created by `set_gui_arrow`.
---- @return nil                         
+--- 
+--- @return nil
 function control.clear_gui_arrow()
     return nil
 end
@@ -306,15 +326,19 @@ end
 
 --- Get the number of all or some items in this entity.
 --- 
---- @overload fun()
+--- @overload fun(): uint
+--- 
 --- @param item string | nil             (Optional) 
+--- @return uint
 function control.get_item_count(item)
     item = nil
+    return nil
 end
 
 
 --- Does this entity have any item inside it?
---- @return nil                         
+--- 
+--- @return boolean
 function control.has_items_inside()
     return nil
 end
@@ -323,13 +347,16 @@ end
 --- Can a given entity be opened or accessed?
 --- 
 --- @param entity LuaEntity             
+--- @return boolean
 function control.can_reach_entity(entity)
     entity = nil
+    return nil
 end
 
 
 --- Remove all items from this entity.
---- @return nil                         
+--- 
+--- @return nil
 function control.clear_items_inside()
     return nil
 end
@@ -338,23 +365,40 @@ end
 --- Remove items from this entity.
 --- 
 --- @param items ItemStackIdentification
+--- @return uint                         The number of items that were actually removed.
 function control.remove_item(items)
     items = nil
+    return nil
 end
 
 
 --- Teleport the entity to a given position, possibly on another surface.
 --- 
---- @overload fun(position: MapPosition)
+--- May raise the following events:
+---  - on_player_changed_position:
+---    @see on_player_changed_position@
+---    Raised instantly, conditionally.
+---    Raised if the teleported entity is a player character.
+--- 
+--- @overload fun(position: MapPosition): boolean
+--- 
 --- @param position MapPosition         
 --- @param surface SurfaceIdentification | nil (Optional) 
+--- @return boolean                      `true` if the entity was successfully teleported.
 function control.teleport(position, surface)
     position = nil
     surface = nil
+    return nil
 end
 
 
 --- Select an entity, as if by hovering the mouse above it.
+--- 
+--- May raise the following events:
+---  - on_selected_entity_changed:
+---    @see on_selected_entity_changed@
+---    Raised instantly, conditionally.
+---    Raised if there is an entity at the given position to select.
 --- 
 --- @param position MapPosition         
 function control.update_selected_entity(position)
@@ -363,28 +407,38 @@ end
 
 
 --- Unselect any selected entity.
---- @return nil                         
+--- 
+--- May raise the following events:
+---  - on_selected_entity_changed:
+---    @see on_selected_entity_changed@
+---    Raised instantly, conditionally.
+---    Raised if there is a currently selected entity.
+--- 
+--- @return nil
 function control.clear_selected_entity()
     return nil
 end
 
 
 --- Disable the flashlight.
---- @return nil                         
+--- 
+--- @return nil
 function control.disable_flashlight()
     return nil
 end
 
 
 --- Enable the flashlight.
---- @return nil                         
+--- 
+--- @return nil
 function control.enable_flashlight()
     return nil
 end
 
 
 --- Is the flashlight enabled.
---- @return nil                         
+--- 
+--- @return boolean
 function control.is_flashlight_enabled()
     return nil
 end
@@ -393,8 +447,10 @@ end
 --- Gets the count of the given recipe that can be crafted.
 --- 
 --- @param recipe string | LuaRecipe    
+--- @return uint                         The count that can be crafted.
 function control.get_craftable_count(recipe)
     recipe = nil
+    return nil
 end
 
 
@@ -405,9 +461,21 @@ end
 
 --- Begins crafting the given count of the given recipe.
 --- 
+--- May raise the following events:
+---  - on_pre_player_crafted_item:
+---    @see on_pre_player_crafted_item@
+---    Raised instantly, conditionally.
+---    Raised if crafting was able to be started.
+---  - on_player_main_inventory_changed:
+---    @see on_player_main_inventory_changed@
+---    Raised at current_tick, conditionally.
+---    Raised if crafting was able to be started.
+--- 
 --- @param params LuaControl_begin_crafting_p
+--- @return uint                         The count that was actually started crafting.
 function control.begin_crafting(params)
     params = nil
+    return nil
 end
 
 
@@ -417,6 +485,16 @@ end
 
 --- Cancels crafting the given count of the given crafting queue index.
 --- 
+--- May raise the following events:
+---  - on_player_cancelled_crafting:
+---    @see on_player_cancelled_crafting@
+---    Raised instantly, conditionally.
+---    Raised if crafting was able to be cancelled.
+---  - on_player_main_inventory_changed:
+---    @see on_player_main_inventory_changed@
+---    Raised at current_tick, conditionally.
+---    Raised if crafting was able to be cancelled.
+--- 
 --- @param params LuaControl_cancel_crafting_p
 function control.cancel_crafting(params)
     params = nil
@@ -425,25 +503,55 @@ end
 
 --- Mines the given entity as if this player (or character) mined it.
 --- 
---- @overload fun(entity: LuaEntity)
+--- May raise the following events:
+---  - on_pre_player_mined_item:
+---    @see on_pre_player_mined_item@
+---    Raised instantly, conditionally.
+---    Raised if mining is possible.
+---  - on_player_mined_entity:
+---    @see on_player_mined_entity@
+---    Raised instantly, conditionally.
+---    Raised if mining is successful.
+---  - on_player_mined_item:
+---    @see on_player_mined_item@
+---    Raised instantly, conditionally.
+---    Raised if mining is successful.
+--- 
+--- @overload fun(entity: LuaEntity): boolean
+--- 
 --- @param entity LuaEntity             
 --- @param force boolean | nil           (Optional) 
+--- @return boolean                      Whether the mining succeeded.
 function control.mine_entity(entity, force)
     entity = nil
     force = nil
+    return nil
 end
 
 
 --- Mines the given tile as if this player (or character) mined it.
 --- 
+--- May raise the following events:
+---  - on_player_mined_item:
+---    @see on_player_mined_item@
+---    Raised instantly, conditionally.
+---    Raised if mining is successful.
+---  - on_player_mined_tile:
+---    @see on_player_mined_tile@
+---    Raised instantly, conditionally.
+---    Raised if mining is successful.
+--- 
 --- @param tile LuaTile                 
+--- @return boolean                      Whether the mining succeeded.
 function control.mine_tile(tile)
     tile = nil
+    return nil
 end
 
 
 --- When `true` control adapter is a LuaPlayer object, `false` for entities including characters with players.
---- @return nil                         
+--- 
+--- @return boolean
 function control.is_player()
     return nil
 end
@@ -452,6 +560,7 @@ end
 --- Open the technology GUI and select a given technology.
 --- 
 --- @overload fun()
+--- 
 --- @param technology TechnologyIdentification | nil (Optional) 
 function control.open_technology_gui(technology)
     technology = nil
@@ -460,46 +569,78 @@ end
 
 --- Sets a personal logistic request and auto-trash slot to the given value.
 --- 
+--- May raise the following events:
+---  - on_entity_logistic_slot_changed:
+---    @see on_entity_logistic_slot_changed@
+---    Raised instantly, conditionally.
+---    Raised if setting of logistic slot was successful.
+--- 
 --- @param slot_index uint              
 --- @param value LogisticParameters     
+--- @return boolean                      Whether the slot was set successfully. `false` if personal logistics are not researched yet.
 function control.set_personal_logistic_slot(slot_index, value)
     slot_index = nil
     value = nil
+    return nil
 end
 
 
 --- Sets a vehicle logistic request and auto-trash slot to the given value. Only used on `spider-vehicule`s.
 --- 
+--- May raise the following events:
+---  - on_entity_logistic_slot_changed:
+---    @see on_entity_logistic_slot_changed@
+---    Raised instantly, conditionally.
+---    Raised if setting of logistic slot was successful.
+--- 
 --- @param slot_index uint              
 --- @param value LogisticParameters     
+--- @return boolean                      Whether the slot was set successfully. `false` if the vehicle does not use logistics.
 function control.set_vehicle_logistic_slot(slot_index, value)
     slot_index = nil
     value = nil
+    return nil
 end
 
 
 --- Gets the parameters of a personal logistic request and auto-trash slot.
 --- 
 --- @param slot_index uint              
+--- @return LogisticParameters           The logistic parameters. If personal logistics are not researched yet, their `name` will be `nil`.
 function control.get_personal_logistic_slot(slot_index)
     slot_index = nil
+    return nil
 end
 
 
 --- Gets the parameters of a vehicle logistic request and auto-trash slot.
 --- 
 --- @param slot_index uint              
+--- @return LogisticParameters           The logistic parameters. If the vehicle does not use logistics, their `name` will be `nil`.
 function control.get_vehicle_logistic_slot(slot_index)
     slot_index = nil
+    return nil
 end
 
 
+--- May raise the following events:
+---  - on_entity_logistic_slot_changed:
+---    @see on_entity_logistic_slot_changed@
+---    Raised instantly, conditionally.
+---    Raised if clearing of logistic slot was successful.
+--- 
 --- @param slot_index uint              
 function control.clear_personal_logistic_slot(slot_index)
     slot_index = nil
 end
 
 
+--- May raise the following events:
+---  - on_entity_logistic_slot_changed:
+---    @see on_entity_logistic_slot_changed@
+---    Raised instantly, conditionally.
+---    Raised if clearing of logistic slot was successful.
+--- 
 --- @param slot_index uint              
 function control.clear_vehicle_logistic_slot(slot_index)
     slot_index = nil
@@ -512,7 +653,8 @@ end
 --- meaning a blueprint book with a selected blueprint will return the information as well.
 --- 
 --- @see LuaControl#get_blueprint_entities @
---- @return nil                         
+--- 
+--- @return boolean
 function control.is_cursor_blueprint()
     return nil
 end
@@ -520,15 +662,17 @@ end
 
 --- Gets the entities that are part of the currently selected blueprint, regardless of it being in a blueprint book or
 --- picked from the blueprint library.
---- @return nil                         
+--- 
+--- @return BlueprintEntity[]            Returns `nil` if there is no currently selected blueprint.
 function control.get_blueprint_entities()
-    return nil
+    return {}
 end
 
 
 --- Returns whether the player is holding something in the cursor. It takes into account items from the blueprint
 --- library, as well as items and ghost cursor.
---- @return nil                         
+--- 
+--- @return boolean
 function control.is_cursor_empty()
     return nil
 end

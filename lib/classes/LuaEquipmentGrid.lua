@@ -84,23 +84,29 @@ equipment_grid.object_name = nil
 --- Remove an equipment from the grid.
 --- 
 --- @param params LuaEquipmentGrid_take_p
+--- @return SimpleItemStack              The removed equipment, or `nil` if no equipment was removed.
 function equipment_grid.take(params)
     params = nil
+    return nil
 end
 
 
 --- Remove all equipment from the grid.
 --- 
---- @overload fun()
+--- @overload fun(): table<string, uint>
+--- 
 --- @param by_player PlayerIdentification | nil (Optional) 
+--- @return table<string, uint>          Count of each removed equipment, indexed by their prototype names.
 function equipment_grid.take_all(by_player)
     by_player = nil
+    return nil
 end
 
 
 --- Clear all equipment from the grid, removing it without actually returning it.
 --- 
 --- @overload fun()
+--- 
 --- @param by_player PlayerIdentification | nil (Optional) 
 function equipment_grid.clear(by_player)
     by_player = nil
@@ -115,8 +121,10 @@ end
 --- Insert an equipment into the grid.
 --- 
 --- @param params LuaEquipmentGrid_put_p
+--- @return LuaEquipment                 The newly-added equipment, or `nil` if the equipment could not be added.
 function equipment_grid.put(params)
     params = nil
+    return nil
 end
 
 
@@ -127,8 +135,10 @@ end
 --- Check whether moving an equipment would succeed.
 --- 
 --- @param params LuaEquipmentGrid_can_move_p
+--- @return boolean
 function equipment_grid.can_move(params)
     params = nil
+    return nil
 end
 
 
@@ -139,28 +149,34 @@ end
 --- Move an equipment within this grid.
 --- 
 --- @param params LuaEquipmentGrid_move_p
+--- @return boolean                      `true` if the equipment was successfully moved.
 function equipment_grid.move(params)
     params = nil
+    return nil
 end
 
 
 --- Find equipment in the Equipment Grid based off a position.
 --- 
 --- @param position EquipmentPosition   
+--- @return LuaEquipment                 The found equipment, or `nil` if equipment could not be found at the given position.
 function equipment_grid.get(position)
     position = nil
+    return nil
 end
 
 
 --- Get counts of all equipment in this grid.
---- @return nil                         
+--- 
+--- @return table<string, uint>          The counts, indexed by equipment names.
 function equipment_grid.get_contents()
     return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function equipment_grid.help()
     return nil
 end

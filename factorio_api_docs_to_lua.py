@@ -11,12 +11,16 @@ from lua_docs_format import max_line_length, doc_start, doc_continue, check_var,
     format_description, write_emmy_doc, indent_for_desc
 
 
+JSON_DOCS_SUPPORTED_VERSION = 2
+
+
 factorio_api_url = r"https://lua-api.factorio.com"
 runtime_api_file = "runtime-api.json"
 
 
 out_dir = Path.cwd() / "lib"
 api_json_file = out_dir / "raw_api_docs.json"
+api_version_file = out_dir / "api_version.json"
 
 classes_dir = out_dir / "classes"
 
@@ -27,6 +31,16 @@ concepts_file = out_dir / "concepts.lua"
 globals_file = out_dir / "globals.lua"
 libs_and_functions_file = out_dir / "libs_and_functions.lua"
 data_state_file = out_dir / "data_stage.lua"
+
+
+def ret_val(order: int, type_def: Union[str, dict], optional: bool = False, desc: str = ""):
+    # Utility to make a valid Parameter object to be used in a 'return_values' array field in a Method object
+    return {
+        "order": order,
+        "type": type_def,
+        "optional": optional,
+        "description": desc
+    }
 
 
 # Any key not encountered while parsing the concepts will have its value written to the concepts file
@@ -45,7 +59,12 @@ concepts_additions = {
                   + " | ItemPrototypeFilter"
     ],
 
-    # Those are errors which will be fixed in the future of the API
+    # I prefer Position instead of MapPosition, so here's an alias to fix that
+    "Position": [
+        doc_start + "@alias Position MapPosition"
+    ],
+
+    # TODO : Those are errors which should be fixed in the future of the API
     "BlueprintCircuitConnection": [
         doc_start + "@alias BlueprintCircuitConnection table"
     ],
@@ -132,7 +151,7 @@ classes_fixes = {
         "generic": "<A>",
         "methods": {
             "get": {
-                "return_type": "A"
+                "return_values": [ret_val(1, "A")]
             }
         }
     },
@@ -152,13 +171,6 @@ classes_fixes = {
             }
         }
     },
-    "LuaEntity": {
-        "methods": {
-            "get_rail_segment_end": {
-                "return_type": "LuaEntity, defines_rail_direction"
-            }
-        }
-    },
     "LuaGuiElement": {
         "generic_fields": [
             {
@@ -166,6 +178,21 @@ classes_fixes = {
                 "type": "LuaGuiElement"
             }
         ]
+    },
+    # TODO : check if those mistakes are fixed
+    "LuaEntity": {
+        "methods": {
+            "is_crafting": {
+                "return_values": [ret_val(1, "boolean")]
+            }
+        }
+    },
+    "LuaControl": {
+        "methods": {
+            "is_flashlight_enabled": {
+                "return_values": [ret_val(1, "boolean")]
+            }
+        }
     }
 }
 
@@ -182,7 +209,7 @@ builtins_additions = {
     "int64": {
         "type": "number",
         "description":
-            "32-bit signed integer. Possible values are -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807."
+            "64-bit signed integer. Possible values are -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807."
     },
     "uint32": {
         "type": "number",
@@ -231,7 +258,7 @@ libs_and_functions = {
                         "order": 1
                     }
                 ],
-                "return_type": "string"
+                "return_values": [ret_val(1, "string")]
             },
             {
                 "name": "line",
@@ -254,7 +281,7 @@ libs_and_functions = {
                         "order": 1
                     }
                 ],
-                "return_type": "string"
+                "return_values": [ret_val(1, "string")]
             },
             {
                 "name": "dump",
@@ -277,7 +304,7 @@ libs_and_functions = {
                         "order": 1
                     }
                 ],
-                "return_type": "string"
+                "return_values": [ret_val(1, "string")]
             },
             {
                 "name": "load",
@@ -300,7 +327,10 @@ libs_and_functions = {
                         "order": 1
                     }
                 ],
-                "return_type": "boolean, any"
+                "return_values": [
+                    ret_val(1, "boolean"),
+                    ret_val(2, "any"),
+                ]
             }
         ]
     },
@@ -351,7 +381,9 @@ libs_and_functions = {
                 "order": 0
             }
         ],
-        "return_type": "number"
+        "return_values": [
+            ret_val(1, "number")
+        ]
     }
 }
 
@@ -444,6 +476,29 @@ def write_enum_type(file: TextIO, values_def: List[dict]):
         file.write(value_str)
 
 
+def write_raises_list(file: TextIO, raises_list: List[dict]):
+    file.write(doc_continue + "May raise the following events:")
+    for event_raised in sorted(raises_list, key=lambda x: x["order"]):
+        event_str = doc_continue + f" - {event_raised['name']}:"
+        event_str += doc_continue + f"   @see {event_raised['name']}@"
+
+        event_str += doc_continue + "   "
+        if event_raised["timeframe"] == "instantly":
+            event_str += "Raised instantly"
+        else:
+            event_str += "Raised at " + event_raised["timeframe"]
+
+        if event_raised["optional"]:
+            event_str += ", conditionally"
+
+        event_str += "."
+
+        if event_raised["description"]:
+            event_str += doc_continue + "   " + event_raised["description"]
+
+        file.write(event_str)
+
+
 def write_parameters(file: TextIO, params: List[dict], are_fields: bool = False):
     for param in sorted(params, key=lambda x: x["order"]):
         param_str = doc_continue + ("@field " if are_fields else " @param ") + param["name"]
@@ -504,152 +559,216 @@ def write_attributes(file: TextIO, attributes: dict):
 
         attr_str += attr["description"]
 
-        # Missing: notes, examples, see_also
-
         file.write(attr_str)
 
 
-def format_overload(method: dict, params_list: List[dict]) -> str:
+def parse_method_params(file: TextIO, method: dict, class_type: str, class_var: str) -> (List[dict], str):
+    if method["takes_table"]:
+        params_decl = "params"
+        params_table_type = class_type + "_" + method["name"] + "_p"
+        table_optional = method["table_is_optional"] if "table_is_optional" in method else False
+        params_list = [
+            {
+                "name": "params",
+                "type": params_table_type,
+                "optional": table_optional,
+                "desc": "",
+                "nil": "nil"
+            }
+        ]
+
+        file.write(doc_continue + "@alias " + params_table_type)
+        write_parameters(file, method["parameters"], are_fields=True)
+
+        if "variant_parameter_groups" in method:
+            write_parameter_groups(file, method["variant_parameter_groups"])
+
+        file.write("\n")
+    else:
+        params_list = [
+            {
+                "name": check_var(param["name"], class_var),
+                "type": format_type(param["type"]),
+                "optional": (param["optional"] if "optional" in param else False),
+                "desc": param["description"],
+                "nil": "{}" if is_array(param["type"]) else "nil"
+            }
+            for param in sorted(method["parameters"], key=lambda x: x["order"])
+        ]
+        params_decl = ", ".join([param["name"] for param in params_list])
+
+    return params_list, params_decl
+
+
+def format_overload(params_list: List[dict], type_str: str) -> str:
     params_str = ", ".join(map(lambda x: x["name"] + ": " + format_type(x["type"]), params_list))
     overload_str = doc_continue + f"@overload fun({params_str})"
 
-    if "return_type" in method:
-        overload_str += ": " + format_type(method["return_type"])
+    if type_str:
+        overload_str += ": " + type_str
 
     return overload_str
 
 
+def write_method_overloads(file: TextIO, method: dict, params_list: List[dict]):
+    type_strings = []
+    for return_value in sorted(method["return_values"], key=lambda x: x["order"]):
+        type_str = format_type(return_value["type"])
+        type_strings.append(type_str)
+    type_str = ", ".join(type_strings)
+
+    overload_params_list = []
+    for param in params_list:
+        if param["optional"]:
+            file.write(format_overload(overload_params_list, type_str))
+        overload_params_list.append(param)
+
+
+def write_method_params(file: TextIO, method: dict, params_list: List[dict], params_decl: str):
+    for param in params_list:
+        optional = "optional" in param and param["optional"]
+
+        param_str = doc_continue + f'@param {param["name"]} {param["type"]}'
+        if optional:
+            param_str += " | nil"
+        param_str = indent_for_desc(param_str)
+
+        if optional:
+            param_str += " (Optional) "
+
+        if "description" in param:
+            desc, _ = extract_references(param["description"])
+
+            if '\n' in desc:
+                param_str += " " + desc[:desc.find('\n')]
+            else:
+                param_str += " " + desc
+
+        file.write(param_str)
+
+    if "variadic_type" in method:
+        if params_decl:
+            params_decl += ", ..."
+        else:
+            params_decl = "..."
+
+        param_str = doc_continue + "@vararg " + format_type(method["variadic_type"])
+        param_str = indent_for_desc(param_str)
+
+        if "variadic_description" in method:
+            desc = method["variadic_description"]
+            if '\n' in desc:
+                param_str += " " + desc[:desc.find('\n')]
+            else:
+                param_str += " " + desc
+
+        file.write(param_str)
+
+    return params_decl
+
+
+def write_method_return_values(file: TextIO, method: dict, has_no_params: bool) -> (bool, str):
+    has_return = len(method["return_values"]) > 0
+    type_strings = []
+    default_return_values = []
+    has_descriptions = False
+    descriptions = []
+
+    for return_value in sorted(method["return_values"], key=lambda x: x["order"]):
+        # Same thing as a parameter, but without a name
+        type_str = format_type(return_value["type"])
+
+        # While correct, adding nil for all optional return values can be quite annoying since it will require to cast
+        # all results.
+        # if return_value["optional"]:
+        #     type_str += " | nil"
+
+        type_strings.append(type_str)
+
+        if is_array(return_value["type"]):
+            default_return_values.append("{}")
+        else:
+            default_return_values.append("nil")
+
+        if return_value["description"]:
+            descriptions.append(return_value["description"])
+            has_descriptions = True
+        else:
+            descriptions.append("No description")
+
+    descriptions_str = ""
+    if len(type_strings) > 0:
+        return_str = doc_continue + "@return " + ", ".join(type_strings)
+        if has_descriptions:
+            if len(type_strings) == 1:
+                return_str = indent_for_desc(return_str)
+                return_str += " " + descriptions[0]
+            else:
+                for i, desc in enumerate(descriptions):
+                    descriptions_str += doc_continue + f" - [{i}]: " + desc
+    elif has_no_params:
+        # We force the return type to nil when there is no parameters and returned value, because of a bug in Luanalysis
+        has_return = True
+        return_str = doc_continue + "@return nil"
+        default_return_values = ["nil"]
+    else:
+        return_str = ""
+
+    file.write(return_str)
+    if descriptions_str:
+        file.write(descriptions_str)
+
+    return has_return, ", ".join(default_return_values)
+
+
 def write_methods(file: TextIO, class_type: str, class_var: str, methods: List[dict]):
     for method in sorted(methods, key=lambda x: x["order"]):
-        if method["takes_table"]:
-            params_decl = "params"
-            params_table_type = class_type + "_" + method["name"] + "_p"
-            table_optional = method["table_is_optional"] if "table_is_optional" in method else False
-            params_list = [
-                {
-                    "name": "params",
-                    "type": params_table_type,
-                    "optional": table_optional,
-                    "desc": "",
-                    "nil": "nil"
-                }
-            ]
+        params_list, params_decl = parse_method_params(file, method, class_type, class_var)
 
-            file.write(doc_continue + "@alias " + params_table_type)
-            write_parameters(file, method["parameters"], are_fields=True)
-
-            if "variant_parameter_groups" in method:
-                write_parameter_groups(file, method["variant_parameter_groups"])
-
-            file.write("\n")
-        else:
-            params_list = [
-                {
-                    "name": check_var(param["name"], class_var),
-                    "type": format_type(param["type"]),
-                    "optional": (param["optional"] if "optional" in param else False),
-                    "desc": param["description"],
-                    "nil": "{}" if is_array(param["type"]) else "nil"
-                }
-                for param in sorted(method["parameters"], key=lambda x: x["order"])
-            ]
-            params_decl = ", ".join([param["name"] for param in params_list])
+        no_empty_line_before = False
 
         if method["description"]:
             file.write("\n")
             file.writelines(format_description(method["description"]))
-            if len(params_list) > 0 or "return_type" in method:
+            no_empty_line_before = True
+
+        if "raises" in method:
+            if no_empty_line_before:
                 file.write(doc_continue)
+            write_raises_list(file, method["raises"])
+            no_empty_line_before = True
 
         if any(map(lambda x: x["optional"], params_list)):
             # The function has optional parameters, build the function overloads
-            overload_params_list = []
-            for param in params_list:
-                if param["optional"]:
-                    file.write(format_overload(method, overload_params_list))
-                overload_params_list.append(param)
+            if no_empty_line_before:
+                file.write(doc_continue)
+            write_method_overloads(file, method, params_list)
+            no_empty_line_before = True
 
-        for param in params_list:
-            optional = "optional" in param and param["optional"]
+        if (len(params_list) > 0 or "return_values" in method) and no_empty_line_before:
+            file.write(doc_continue)
 
-            param_str = doc_continue + f'@param {param["name"]} {param["type"]}'
-            if optional:
-                param_str += " | nil"
-            param_str = indent_for_desc(param_str)
+        params_decl = write_method_params(file, method, params_list, params_decl)
 
-            if optional:
-                param_str += " (Optional) "
-
-            if "description" in param:
-                desc, _ = extract_references(param["description"])
-
-                if '\n' in desc:
-                    param_str += " " + desc[:desc.find('\n')]
-                else:
-                    param_str += " " + desc
-
-            file.write(param_str)
-
-        if "variadic_type" in method:
-            if params_decl:
-                params_decl += ", ..."
-            else:
-                params_decl = "..."
-
-            param_str = doc_continue + "@vararg " + format_type(method["variadic_type"])
-            param_str = indent_for_desc(param_str)
-
-            if "variadic_description" in method:
-                desc = method["variadic_description"]
-                if '\n' in desc:
-                    param_str += " " + desc[:desc.find('\n')]
-                else:
-                    param_str += " " + desc
-
-            file.write(param_str)
-
-        return_str = doc_continue + "@return "
-
-        if "return_type" in method:
-            return_str += format_type(method["return_type"])
-            returns_array = is_array(method["return_type"])
-            has_return = True
-        elif len(params_list) == 0:
-            # TODO : we force the return type to nil when there is no parameters or returned value because of a bug in
-            #  Luanalysis
-            return_str += "nil"
-            returns_array = False
-            has_return = True
+        if "return_values" in method:
+            has_return, return_default_values = write_method_return_values(file, method, len(params_list) == 0)
         else:
-            returns_array = False
             has_return = False
-
-        if has_return:
-            return_str = indent_for_desc(return_str)
-            if "return_description" in method:
-                return_str += extract_references(method["return_description"])[0]
-            file.write(return_str)
-
-        if "see_also" in method:
-            for ref in method["see_also"]:
-                _, links = extract_references(ref)
-                file.writelines(links)
+            return_default_values = ""
 
         if class_var:
             file.write(f'\nfunction {class_var}.{method["name"]}({params_decl})\n    ')
         else:
             file.write(f'\nfunction {method["name"]}({params_decl})\n    ')
 
+        # Fake the use of all parameters to make Luanalysis not complain about unused parameters
         file.write("\n    ".join([param["name"] + " = " + param["nil"] for param in params_list]))
+
         if has_return:
+            # Fake a return statement to make Luanalysis not complain about a missing return statement
             if len(params_list) > 0:
                 file.write("\n    ")
-            if returns_array:
-                file.write("return {}")
-            elif ',' in return_str:
-                file.write("return " + ", ".join(["nil"] * (return_str.count(',') + 1)))
-            else:
-                file.write("return nil")
+            file.write("return " + return_default_values)
         file.write("\nend\n\n")
 
         # Missing: examples, notes, subclasses
@@ -669,6 +788,11 @@ def write_attributes_var(file: TextIO, class_var: str, attributes: List[dict]):
 
         if attr["description"]:
             file.writelines(format_description(attr["description"]))
+            file.write("\n")
+
+        if "raises" in attr:
+            file.write(doc_start)
+            write_raises_list(file, attr["raises"])
             file.write("\n")
 
         if is_custom_table(attr["type"]):
@@ -725,11 +849,6 @@ def parse_classes(classes: list):
                     if attr_def["name"] in fixes["attributes"]:
                         attr_def.update(fixes["attributes"][attr_def["name"]])
 
-            if "see_also" in class_def:
-                for ref in class_def["see_also"]:
-                    _, links = extract_references(ref)
-                    lua_file.writelines(links)
-
             lua_file.write("\nlocal " + lua_var + " = {}\n\n")
 
             if "notes" in class_def:
@@ -769,7 +888,7 @@ def parse_events(events: list):
 
             lua_file.write("\n\n\n")
 
-            # Missing: notes, examples, see_also
+            # Missing: notes, examples
 
 
 def parse_defines(defines: list):
@@ -910,11 +1029,6 @@ def parse_concepts(concepts: list):
                     lua_file.write(doc_continue + "\n")
                     write_emmy_doc(lua_file, note, None, None)
 
-            if "see_also" in concept_def:
-                for ref in concept_def["see_also"]:
-                    _, links = extract_references(ref)
-                    lua_file.writelines(links)
-
             if "examples" in concept_def:
                 lua_file.write("\n\n--[[")
                 for note in concept_def["examples"]:
@@ -990,17 +1104,19 @@ def parse_libs_and_functions():
 
 def data_stage():
     with data_state_file.open(mode="w", encoding="utf-8") as lua_file:
-
-        # TODO : 'mods' table (but also in the settings stage)
-
         lua_file.writelines([
             doc_continue,
-            doc_continue + " /!\\ Those functions and tables are only defined during the data stage /!\\",
+            doc_continue + " /!\\ Those functions and tables are only defined during the settings phase and/or data "
+                           "stage /!\\",
             doc_continue,
-            "\n\n",
+            doc_continue + "This means that you cannot access those tables when the game has finished loading.",
+            doc_continue,
+            "\n\n\n",
             "table = table -- The only way I found to make this work for Luanalysis",
             "\n\n",
             doc_continue + "Returns a copy of the given table. All members are copied recursively.",
+            doc_continue + "Only available during the data phase.",
+            doc_continue,
             doc_continue + "@param tbl table<K, V>",
             doc_continue + "@generic K",
             doc_continue + "@generic V",
@@ -1011,6 +1127,7 @@ def data_stage():
             "\nend",
             "\n\n",
             doc_continue + "@class Data",
+            doc_continue + "Only available during the settings and data phase.",
             doc_continue + "@field raw table<string, table<string, table>>",
             doc_continue + "@field is_demo boolean",
             "\ndata = {}",
@@ -1020,6 +1137,11 @@ def data_stage():
             "\n    p = nil",
             "\nend",
             "\n\n",
+            doc_continue + "@type table<string, string>",
+            doc_continue + "Table from mod name to mod version string (e.g. \"1.0.5\")",
+            doc_continue + "Only available during the settings and data phase.",
+            "\nmods = {}",
+            "\n\n",
         ])
 
 
@@ -1027,6 +1149,19 @@ def convert_factorio_api(version: str = "latest", force_request: bool = True):
     factorio_api = get_api_json(version, force_request)
     print("Factorio API version: " + factorio_api["application_version"])
     print("Docs version: " + str(factorio_api["api_version"]))
+
+    if JSON_DOCS_SUPPORTED_VERSION != factorio_api["api_version"]:
+        print(f"The supported version of the machine-readable API docs is {JSON_DOCS_SUPPORTED_VERSION}, there could be"
+              f" some problems with the output, and some parts could be missing.")
+        res = input("Are you sure you want to continue? ([y]/n)")
+        if res.lower().strip() == "n":
+            return
+
+    with api_version_file.open(mode="w") as version_file:
+        json.dump({
+            "factorio_version": factorio_api["application_version"],
+            "api_version": factorio_api["api_version"]
+        }, version_file, indent=4, sort_keys=True)
 
     if not force_request:
         with api_json_file.open(mode="w") as api_file:

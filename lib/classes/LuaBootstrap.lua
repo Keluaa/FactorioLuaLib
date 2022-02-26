@@ -82,6 +82,7 @@ end
 --- subsequent registrations.
 --- 
 --- @overload fun(event: defines_events | defines_events[] | string, f: fun(_0: EventData))
+--- 
 --- @param event defines_events | defines_events[] | string
 --- @param f fun(_0: EventData)         
 --- @param filters EventFilter[] | nil   (Optional) 
@@ -111,15 +112,18 @@ end
 --- @see on_entity_destroyed @
 --- 
 --- @param entity LuaEntity             
+--- @return uint64                       The registration number. It is used to identify the entity in the [on_entity_destroyed](on_entity_destroyed) event.
 function bootstrap.register_on_entity_destroyed(entity)
     entity = nil
+    return nil
 end
 
 
 --- Generate a new, unique event ID that can be used to raise custom events with LuaBootstrap::raise_event.
 --- 
 --- @see LuaBootstrap#raise_event @
---- @return nil                         
+--- 
+--- @return uint                         The newly generated event ID.
 function bootstrap.generate_event_name()
     return nil
 end
@@ -128,13 +132,16 @@ end
 --- Find the event handler for an event.
 --- 
 --- @param event uint                   
+--- @return fun(_0: EventData)           Reference to the function currently registered as the handler, if it was found.
 function bootstrap.get_event_handler(event)
     event = nil
+    return nil
 end
 
 
 --- Gets the mod event order as a string.
---- @return nil                         
+--- 
+--- @return string
 function bootstrap.get_event_order()
     return nil
 end
@@ -144,6 +151,7 @@ end
 --- because registering for an event with different or no filters will overwrite previously set ones.
 --- 
 --- @overload fun(event: uint)
+--- 
 --- @param event uint                   
 --- @param filters EventFilter[] | nil   (Optional) 
 function bootstrap.set_event_filter(event, filters)
@@ -155,8 +163,10 @@ end
 --- Gets the filters for the given event.
 --- 
 --- @param event uint                   
+--- @return EventFilter[]                The filters or `nil` if none are defined.
 function bootstrap.get_event_filter(event)
     event = nil
+    return {}
 end
 
 
@@ -194,6 +204,12 @@ end
 --- @field player_index uint             The player doing the chatting.
 --- @field message string                The chat message to send.
 
+--- May raise the following events:
+---  - on_console_chat:
+---    @see on_console_chat@
+---    Raised instantly.
+---    Raised with the provided arguments.
+--- 
 --- @param params LuaBootstrap_raise_console_chat_p
 function bootstrap.raise_console_chat(params)
     params = nil
@@ -205,6 +221,12 @@ end
 --- @field player_index uint             The player doing the crafting.
 --- @field recipe LuaRecipe              The recipe used to craft this item.
 
+--- May raise the following events:
+---  - on_player_crafted_item:
+---    @see on_player_crafted_item@
+---    Raised instantly.
+---    Raised with the provided arguments.
+--- 
 --- @param params LuaBootstrap_raise_player_crafted_item_p
 function bootstrap.raise_player_crafted_item(params)
     params = nil
@@ -216,6 +238,12 @@ end
 --- @field entity LuaEntity              The entity transferred from or to.
 --- @field from_player boolean           Whether the transfer was from player to entity. If `false`, the transfer was from entity to player.
 
+--- May raise the following events:
+---  - on_player_fast_transferred:
+---    @see on_player_fast_transferred@
+---    Raised instantly.
+---    Raised with the provided arguments.
+--- 
 --- @param params LuaBootstrap_raise_player_fast_transferred_p
 function bootstrap.raise_player_fast_transferred(params)
     params = nil
@@ -225,6 +253,12 @@ end
 --- @alias LuaBootstrap_raise_biter_base_built_p
 --- @field entity LuaEntity              The entity that was built.
 
+--- May raise the following events:
+---  - on_biter_base_built:
+---    @see on_biter_base_built@
+---    Raised instantly.
+---    Raised with the provided arguments.
+--- 
 --- @param params LuaBootstrap_raise_biter_base_built_p
 function bootstrap.raise_biter_base_built(params)
     params = nil
@@ -237,6 +271,12 @@ end
 --- @field offer_index uint              The index of the offer purchased.
 --- @field count uint                    The amount of offers purchased.
 
+--- May raise the following events:
+---  - on_market_item_purchased:
+---    @see on_market_item_purchased@
+---    Raised instantly.
+---    Raised with the provided arguments.
+--- 
 --- @param params LuaBootstrap_raise_market_item_purchased_p
 function bootstrap.raise_market_item_purchased(params)
     params = nil
@@ -246,6 +286,12 @@ end
 --- @alias LuaBootstrap_raise_script_built_p
 --- @field entity LuaEntity              The entity that has been built.
 
+--- May raise the following events:
+---  - script_raised_built:
+---    @see script_raised_built@
+---    Raised instantly.
+---    Raised with the provided arguments.
+--- 
 --- @param params LuaBootstrap_raise_script_built_p
 function bootstrap.raise_script_built(params)
     params = nil
@@ -255,6 +301,12 @@ end
 --- @alias LuaBootstrap_raise_script_destroy_p
 --- @field entity LuaEntity              The entity that was destroyed.
 
+--- May raise the following events:
+---  - script_raised_destroy:
+---    @see script_raised_destroy@
+---    Raised instantly.
+---    Raised with the provided arguments.
+--- 
 --- @param params LuaBootstrap_raise_script_destroy_p
 function bootstrap.raise_script_destroy(params)
     params = nil
@@ -265,6 +317,12 @@ end
 --- @field entity LuaEntity              The entity that was revived.
 --- @field tags Tags | nil               (Optional)  The tags associated with this entity, if any.
 
+--- May raise the following events:
+---  - script_raised_revive:
+---    @see script_raised_revive@
+---    Raised instantly.
+---    Raised with the provided arguments.
+--- 
 --- @param params LuaBootstrap_raise_script_revive_p
 function bootstrap.raise_script_revive(params)
     params = nil
@@ -275,6 +333,12 @@ end
 --- @field surface_index uint            The surface whose tiles have been changed.
 --- @field tiles Tile[]                  The tiles that have been changed.
 
+--- May raise the following events:
+---  - script_raised_set_tiles:
+---    @see script_raised_set_tiles@
+---    Raised instantly.
+---    Raised with the provided arguments.
+--- 
 --- @param params LuaBootstrap_raise_script_set_tiles_p
 function bootstrap.raise_script_set_tiles(params)
     params = nil

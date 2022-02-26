@@ -39,24 +39,30 @@ permission_group.object_name = nil
 --- Adds the given player to this group.
 --- 
 --- @param player PlayerIdentification  
+--- @return boolean                      Whether the player was added.
 function permission_group.add_player(player)
     player = nil
+    return nil
 end
 
 
 --- Removes the given player from this group.
 --- 
 --- @param player PlayerIdentification  
+--- @return boolean                      Whether the player was removed.
 function permission_group.remove_player(player)
     player = nil
+    return nil
 end
 
 
 --- Whether this group allows the given action.
 --- 
 --- @param action defines_input_action  
+--- @return boolean
 function permission_group.allows_action(action)
     action = nil
+    return nil
 end
 
 
@@ -64,21 +70,25 @@ end
 --- 
 --- @param action defines_input_action  
 --- @param allow_action boolean         
+--- @return boolean                      Whether the value was successfully applied.
 function permission_group.set_allows_action(action, allow_action)
     action = nil
     allow_action = nil
+    return nil
 end
 
 
 --- Destroys this group.
---- @return nil                         
+--- 
+--- @return boolean                      Whether the group was successfully destroyed.
 function permission_group.destroy()
     return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function permission_group.help()
     return nil
 end

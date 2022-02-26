@@ -51,13 +51,16 @@ end
 --- @see Signal @
 --- 
 --- @param index uint                   
+--- @return Signal
 function constant_combinator_control_behavior.get_signal(index)
     index = nil
+    return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function constant_combinator_control_behavior.help()
     return nil
 end

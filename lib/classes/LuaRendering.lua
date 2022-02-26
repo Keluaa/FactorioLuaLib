@@ -35,8 +35,10 @@ rendering.object_name = nil
 --- Create a line.
 --- 
 --- @param params LuaRendering_draw_line_p
+--- @return uint64                       Id of the render object
 function rendering.draw_line(params)
     params = nil
+    return nil
 end
 
 
@@ -62,8 +64,10 @@ end
 --- Create a text.
 --- 
 --- @param params LuaRendering_draw_text_p
+--- @return uint64                       Id of the render object
 function rendering.draw_text(params)
     params = nil
+    return nil
 end
 
 
@@ -85,8 +89,10 @@ end
 --- Create a circle.
 --- 
 --- @param params LuaRendering_draw_circle_p
+--- @return uint64                       Id of the render object
 function rendering.draw_circle(params)
     params = nil
+    return nil
 end
 
 
@@ -109,8 +115,10 @@ end
 --- Create a rectangle.
 --- 
 --- @param params LuaRendering_draw_rectangle_p
+--- @return uint64                       Id of the render object
 function rendering.draw_rectangle(params)
     params = nil
+    return nil
 end
 
 
@@ -133,8 +141,10 @@ end
 --- Create an arc.
 --- 
 --- @param params LuaRendering_draw_arc_p
+--- @return uint64                       Id of the render object
 function rendering.draw_arc(params)
     params = nil
+    return nil
 end
 
 
@@ -157,8 +167,10 @@ end
 --- Create a triangle mesh defined by a triangle strip.
 --- 
 --- @param params LuaRendering_draw_polygon_p
+--- @return uint64                       Id of the render object
 function rendering.draw_polygon(params)
     params = nil
+    return nil
 end
 
 
@@ -184,8 +196,10 @@ end
 --- Create a sprite.
 --- 
 --- @param params LuaRendering_draw_sprite_p
+--- @return uint64                       Id of the render object
 function rendering.draw_sprite(params)
     params = nil
+    return nil
 end
 
 
@@ -209,8 +223,10 @@ end
 --- Create a light.
 --- 
 --- @param params LuaRendering_draw_light_p
+--- @return uint64                       Id of the render object
 function rendering.draw_light(params)
     params = nil
+    return nil
 end
 
 
@@ -238,8 +254,10 @@ end
 --- Create an animation.
 --- 
 --- @param params LuaRendering_draw_animation_p
+--- @return uint64                       Id of the render object
 function rendering.draw_animation(params)
     params = nil
+    return nil
 end
 
 
@@ -254,31 +272,39 @@ end
 --- Does a font with this name exist?
 --- 
 --- @param font_name string             
+--- @return boolean
 function rendering.is_font_valid(font_name)
     font_name = nil
+    return nil
 end
 
 
 --- Does a valid object with this id exist?
 --- 
 --- @param id uint64                    
+--- @return boolean
 function rendering.is_valid(id)
     id = nil
+    return nil
 end
 
 
 --- Gets an array of all valid object ids.
 --- 
---- @overload fun()
+--- @overload fun(): uint64[]
+--- 
 --- @param mod_name string | nil         (Optional) 
+--- @return uint64[]
 function rendering.get_all_ids(mod_name)
     mod_name = nil
+    return {}
 end
 
 
 --- Destroys all render objects.
 --- 
 --- @overload fun()
+--- 
 --- @param mod_name string | nil         (Optional) 
 function rendering.clear(mod_name)
     mod_name = nil
@@ -289,8 +315,10 @@ end
 --- "light" and "animation".
 --- 
 --- @param id uint64                    
+--- @return string
 function rendering.get_type(id)
     id = nil
+    return nil
 end
 
 
@@ -305,16 +333,20 @@ end
 --- The surface the object with this id is rendered on.
 --- 
 --- @param id uint64                    
+--- @return LuaSurface
 function rendering.get_surface(id)
     id = nil
+    return nil
 end
 
 
 --- Get the time to live of the object with this id. This will be 0 if the object does not expire.
 --- 
 --- @param id uint64                    
+--- @return uint
 function rendering.get_time_to_live(id)
     id = nil
+    return nil
 end
 
 
@@ -331,8 +363,10 @@ end
 --- Get the forces that the object with this id is rendered to or `nil` if visible to all forces.
 --- 
 --- @param id uint64                    
+--- @return LuaForce[]
 function rendering.get_forces(id)
     id = nil
+    return {}
 end
 
 
@@ -349,8 +383,10 @@ end
 --- Get the players that the object with this id is rendered to or `nil` if visible to all players.
 --- 
 --- @param id uint64                    
+--- @return LuaPlayer[]
 function rendering.get_players(id)
     id = nil
+    return {}
 end
 
 
@@ -367,8 +403,10 @@ end
 --- Get whether this is rendered to anyone at all.
 --- 
 --- @param id uint64                    
+--- @return boolean
 function rendering.get_visible(id)
     id = nil
+    return nil
 end
 
 
@@ -385,8 +423,10 @@ end
 --- Get whether this is being drawn on the ground, under most entities and sprites.
 --- 
 --- @param id uint64                    
+--- @return boolean
 function rendering.get_draw_on_ground(id)
     id = nil
+    return nil
 end
 
 
@@ -403,8 +443,10 @@ end
 --- Get whether this is only rendered in alt-mode.
 --- 
 --- @param id uint64                    
+--- @return boolean
 function rendering.get_only_in_alt_mode(id)
     id = nil
+    return nil
 end
 
 
@@ -421,8 +463,10 @@ end
 --- Get the color or tint of the object with this id.
 --- 
 --- @param id uint64                    
+--- @return Color                        `nil` if the object does not support color.
 function rendering.get_color(id)
     id = nil
+    return nil
 end
 
 
@@ -439,8 +483,10 @@ end
 --- Get the width of the object with this id. Value is in pixels (32 per tile).
 --- 
 --- @param id uint64                    
+--- @return float                        `nil` if the object does not support width.
 function rendering.get_width(id)
     id = nil
+    return nil
 end
 
 
@@ -458,14 +504,17 @@ end
 --- Get from where the line with this id is drawn.
 --- 
 --- @param id uint64                    
+--- @return ScriptRenderTarget           `nil` if this object is not a line.
 function rendering.get_from(id)
     id = nil
+    return nil
 end
 
 
 --- Set from where the line with this id is drawn. Does nothing if the object is not a line.
 --- 
 --- @overload fun(id: uint64, from: MapPosition | LuaEntity)
+--- 
 --- @param id uint64                    
 --- @param from MapPosition | LuaEntity 
 --- @param from_offset Vector | nil      (Optional) 
@@ -479,14 +528,17 @@ end
 --- Get where the line with this id is drawn to.
 --- 
 --- @param id uint64                    
+--- @return ScriptRenderTarget           `nil` if the object is not a line.
 function rendering.get_to(id)
     id = nil
+    return nil
 end
 
 
 --- Set where the line with this id is drawn to. Does nothing if this object is not a line.
 --- 
 --- @overload fun(id: uint64, to: MapPosition | LuaEntity)
+--- 
 --- @param id uint64                    
 --- @param to MapPosition | LuaEntity   
 --- @param to_offset Vector | nil        (Optional) 
@@ -500,8 +552,10 @@ end
 --- Get the dash length of the line with this id.
 --- 
 --- @param id uint64                    
+--- @return double                       `nil` if the object is not a line.
 function rendering.get_dash_length(id)
     id = nil
+    return nil
 end
 
 
@@ -518,8 +572,10 @@ end
 --- Get the length of the gaps in the line with this id.
 --- 
 --- @param id uint64                    
+--- @return double                       `nil` if the object is not a line.
 function rendering.get_gap_length(id)
     id = nil
+    return nil
 end
 
 
@@ -549,14 +605,17 @@ end
 --- Get where the object with this id is drawn.
 --- 
 --- @param id uint64                    
+--- @return ScriptRenderTarget           `nil` if the object does not support target.
 function rendering.get_target(id)
     id = nil
+    return nil
 end
 
 
 --- Set where the object with this id is drawn. Does nothing if this object does not support target.
 --- 
 --- @overload fun(id: uint64, target: MapPosition | LuaEntity)
+--- 
 --- @param id uint64                    
 --- @param target MapPosition | LuaEntity
 --- @param target_offset Vector | nil    (Optional) 
@@ -570,8 +629,10 @@ end
 --- Get the orientation of the object with this id.
 --- 
 --- @param id uint64                    
+--- @return RealOrientation              `nil` if the object is not a text, polygon, sprite, light or animation.
 function rendering.get_orientation(id)
     id = nil
+    return nil
 end
 
 
@@ -589,8 +650,10 @@ end
 --- Get the scale of the text or light with this id.
 --- 
 --- @param id uint64                    
+--- @return double                       `nil` if the object is not a text or light.
 function rendering.get_scale(id)
     id = nil
+    return nil
 end
 
 
@@ -607,8 +670,10 @@ end
 --- Get the text that is displayed by the text with this id.
 --- 
 --- @param id uint64                    
+--- @return LocalisedString              `nil` if the object is not a text.
 function rendering.get_text(id)
     id = nil
+    return nil
 end
 
 
@@ -625,8 +690,10 @@ end
 --- Get the font of the text with this id.
 --- 
 --- @param id uint64                    
+--- @return string                       `nil` if the object is not a text.
 function rendering.get_font(id)
     id = nil
+    return nil
 end
 
 
@@ -643,8 +710,10 @@ end
 --- Get the alignment of the text with this id.
 --- 
 --- @param id uint64                    
+--- @return string                       `nil` if the object is not a text.
 function rendering.get_alignment(id)
     id = nil
+    return nil
 end
 
 
@@ -661,8 +730,10 @@ end
 --- Get the vertical alignment of the text with this id.
 --- 
 --- @param id uint64                    
+--- @return string                       `nil` if the object is not a text.
 function rendering.get_vertical_alignment(id)
     id = nil
+    return nil
 end
 
 
@@ -679,8 +750,10 @@ end
 --- Get if the text with this id scales with player zoom.
 --- 
 --- @param id uint64                    
+--- @return boolean                      `nil` if the object is not a text.
 function rendering.get_scale_with_zoom(id)
     id = nil
+    return nil
 end
 
 
@@ -698,8 +771,10 @@ end
 --- Get if the circle or rectangle with this id is filled.
 --- 
 --- @param id uint64                    
+--- @return boolean                      `nil` if the object is not a circle or rectangle.
 function rendering.get_filled(id)
     id = nil
+    return nil
 end
 
 
@@ -716,8 +791,10 @@ end
 --- Get the radius of the circle with this id.
 --- 
 --- @param id uint64                    
+--- @return double                       `nil` if the object is not a circle.
 function rendering.get_radius(id)
     id = nil
+    return nil
 end
 
 
@@ -734,14 +811,17 @@ end
 --- Get where top left corner of the rectangle with this id is drawn.
 --- 
 --- @param id uint64                    
+--- @return ScriptRenderTarget           `nil` if the object is not a rectangle.
 function rendering.get_left_top(id)
     id = nil
+    return nil
 end
 
 
 --- Set where top left corner of the rectangle with this id is drawn. Does nothing if this object is not a rectangle.
 --- 
 --- @overload fun(id: uint64, left_top: MapPosition | LuaEntity)
+--- 
 --- @param id uint64                    
 --- @param left_top MapPosition | LuaEntity
 --- @param left_top_offset Vector | nil  (Optional) 
@@ -755,14 +835,17 @@ end
 --- Get where bottom right corner of the rectangle with this id is drawn.
 --- 
 --- @param id uint64                    
+--- @return ScriptRenderTarget           `nil` if the object is not a rectangle.
 function rendering.get_right_bottom(id)
     id = nil
+    return nil
 end
 
 
 --- Set where top bottom right of the rectangle with this id is drawn. Does nothing if this object is not a rectangle.
 --- 
 --- @overload fun(id: uint64, right_bottom: MapPosition | LuaEntity)
+--- 
 --- @param id uint64                    
 --- @param right_bottom MapPosition | LuaEntity
 --- @param right_bottom_offset Vector | nil (Optional) 
@@ -792,8 +875,10 @@ end
 --- Get the radius of the outer edge of the arc with this id.
 --- 
 --- @param id uint64                    
+--- @return double                       `nil` if the object is not a arc.
 function rendering.get_max_radius(id)
     id = nil
+    return nil
 end
 
 
@@ -810,8 +895,10 @@ end
 --- Get the radius of the inner edge of the arc with this id.
 --- 
 --- @param id uint64                    
+--- @return double                       `nil` if the object is not a arc.
 function rendering.get_min_radius(id)
     id = nil
+    return nil
 end
 
 
@@ -828,8 +915,10 @@ end
 --- Get where the arc with this id starts.
 --- 
 --- @param id uint64                    
+--- @return float                        Angle in radian. `nil` if the object is not a arc.
 function rendering.get_start_angle(id)
     id = nil
+    return nil
 end
 
 
@@ -846,8 +935,10 @@ end
 --- Get the angle of the arc with this id.
 --- 
 --- @param id uint64                    
+--- @return float                        Angle in radian. `nil` if the object is not a arc.
 function rendering.get_angle(id)
     id = nil
+    return nil
 end
 
 
@@ -864,8 +955,10 @@ end
 --- Get the vertices of the polygon with this id.
 --- 
 --- @param id uint64                    
+--- @return ScriptRenderTarget[]         `nil` if the object is not a polygon.
 function rendering.get_vertices(id)
     id = nil
+    return {}
 end
 
 
@@ -882,8 +975,10 @@ end
 --- Get the sprite of the sprite or light with this id.
 --- 
 --- @param id uint64                    
+--- @return SpritePath                   `nil` if the object is not a sprite or light.
 function rendering.get_sprite(id)
     id = nil
+    return nil
 end
 
 
@@ -900,8 +995,10 @@ end
 --- Get the horizontal scale of the sprite or animation with this id.
 --- 
 --- @param id uint64                    
+--- @return double                       `nil` if the object is not a sprite or animation.
 function rendering.get_x_scale(id)
     id = nil
+    return nil
 end
 
 
@@ -919,8 +1016,10 @@ end
 --- Get the vertical scale of the sprite or animation with this id.
 --- 
 --- @param id uint64                    
+--- @return double                       `nil` if the object is not a sprite or animation.
 function rendering.get_y_scale(id)
     id = nil
+    return nil
 end
 
 
@@ -938,8 +1037,10 @@ end
 --- Get the render layer of the sprite or animation with this id.
 --- 
 --- @param id uint64                    
+--- @return RenderLayer                  `nil` if the object is not a sprite or animation.
 function rendering.get_render_layer(id)
     id = nil
+    return nil
 end
 
 
@@ -958,8 +1059,10 @@ end
 --- orientation_target of the object with this id.
 --- 
 --- @param id uint64                    
+--- @return ScriptRenderTarget           `nil` if no target or if this object is not a polygon, sprite, or animation.
 function rendering.get_orientation_target(id)
     id = nil
+    return nil
 end
 
 
@@ -968,6 +1071,7 @@ end
 --- Set to `nil` if the object should not have an orientation_target.
 --- 
 --- @overload fun(id: uint64, orientation_target: MapPosition | LuaEntity)
+--- 
 --- @param id uint64                    
 --- @param orientation_target MapPosition | LuaEntity
 --- @param orientation_target_offset Vector | nil (Optional) 
@@ -982,8 +1086,10 @@ end
 --- with the sprite or animation. Get the oriented_offset of the sprite or animation with this id.
 --- 
 --- @param id uint64                    
+--- @return Vector                       `nil` if this object is not a sprite or animation.
 function rendering.get_oriented_offset(id)
     id = nil
+    return nil
 end
 
 
@@ -1002,8 +1108,10 @@ end
 --- Get the intensity of the light with this id.
 --- 
 --- @param id uint64                    
+--- @return float                        `nil` if the object is not a light.
 function rendering.get_intensity(id)
     id = nil
+    return nil
 end
 
 
@@ -1020,8 +1128,10 @@ end
 --- Get the minimum darkness at which the light with this id is rendered.
 --- 
 --- @param id uint64                    
+--- @return float                        `nil` if the object is not a light.
 function rendering.get_minimum_darkness(id)
     id = nil
+    return nil
 end
 
 
@@ -1039,8 +1149,10 @@ end
 --- still applied to the sprite.
 --- 
 --- @param id uint64                    
+--- @return boolean                      `nil` if the object is not a light.
 function rendering.get_oriented(id)
     id = nil
+    return nil
 end
 
 
@@ -1058,8 +1170,10 @@ end
 --- Get the animation prototype name of the animation with this id.
 --- 
 --- @param id uint64                    
+--- @return string                       `nil` if the object is not an animation.
 function rendering.get_animation(id)
     id = nil
+    return nil
 end
 
 
@@ -1076,8 +1190,10 @@ end
 --- Get the animation speed of the animation with this id.
 --- 
 --- @param id uint64                    
+--- @return double                       Animation speed in frames per tick. `nil` if the object is not an animation.
 function rendering.get_animation_speed(id)
     id = nil
+    return nil
 end
 
 
@@ -1094,8 +1210,10 @@ end
 --- Get the animation offset of the animation with this id.
 --- 
 --- @param id uint64                    
+--- @return double                       Animation offset in frames. `nil` if the object is not an animation.
 function rendering.get_animation_offset(id)
     id = nil
+    return nil
 end
 
 

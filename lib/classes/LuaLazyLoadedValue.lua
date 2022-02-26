@@ -28,14 +28,15 @@ lazy_loaded_value.object_name = nil
 
 --- Gets the value of this lazy loaded value.
 --- 
---- @return A                           
+--- @return A
 function lazy_loaded_value.get()
     return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function lazy_loaded_value.help()
     return nil
 end

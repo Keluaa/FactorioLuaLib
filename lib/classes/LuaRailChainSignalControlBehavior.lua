@@ -38,7 +38,8 @@ rail_chain_signal_control_behavior.object_name = nil
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function rail_chain_signal_control_behavior.help()
     return nil
 end

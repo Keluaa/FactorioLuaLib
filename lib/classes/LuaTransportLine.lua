@@ -37,7 +37,8 @@ transport_line.object_name = nil
 
 
 --- Remove all items from this transport line.
---- @return nil                         
+--- 
+--- @return nil
 function transport_line.clear()
     return nil
 end
@@ -47,31 +48,39 @@ end
 --- 
 --- @see LuaInventory#get_item_count @
 --- 
---- @overload fun()
+--- @overload fun(): uint
+--- 
 --- @param item string | nil             (Optional) 
+--- @return uint
 function transport_line.get_item_count(item)
     item = nil
+    return nil
 end
 
 
 --- Remove some items from this line.
 --- 
 --- @param items ItemStackIdentification
+--- @return uint                         Number of items actually removed.
 function transport_line.remove_item(items)
     items = nil
+    return nil
 end
 
 
 --- Can an item be inserted at a given position?
 --- 
 --- @param position float               
+--- @return boolean
 function transport_line.can_insert_at(position)
     position = nil
+    return nil
 end
 
 
 --- Can an item be inserted at the back of this line?
---- @return nil                         
+--- 
+--- @return boolean
 function transport_line.can_insert_at_back()
     return nil
 end
@@ -81,24 +90,29 @@ end
 --- 
 --- @param position float               
 --- @param items ItemStackIdentification
+--- @return boolean                      Were the items inserted successfully?
 function transport_line.insert_at(position, items)
     position = nil
     items = nil
+    return nil
 end
 
 
 --- Insert items at the back of this line.
 --- 
 --- @param items ItemStackIdentification
+--- @return boolean                      Were the items inserted successfully?
 function transport_line.insert_at_back(items)
     items = nil
+    return nil
 end
 
 
 --- Get counts of all items on this line, similar to how LuaInventory::get_contents does.
 --- 
 --- @see LuaInventory#get_contents @
---- @return nil                         
+--- 
+--- @return table<string, uint>          The counts, indexed by item names.
 function transport_line.get_contents()
     return nil
 end
@@ -108,13 +122,16 @@ end
 --- transport line.
 --- 
 --- @param other LuaTransportLine       
+--- @return boolean
 function transport_line.line_equals(other)
     other = nil
+    return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function transport_line.help()
     return nil
 end

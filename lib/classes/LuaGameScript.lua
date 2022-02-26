@@ -427,15 +427,18 @@ end
 
 
 --- Reset scenario state (game_finished, player_won, etc.).
---- @return nil                         
+--- 
+--- @return nil
 function game_script.reset_game_state()
     return nil
 end
 
 
 --- @param tag string                   
+--- @return LuaEntity
 function game_script.get_entity_by_tag(tag)
     tag = nil
+    return nil
 end
 
 
@@ -455,21 +458,24 @@ end
 
 
 --- Is this the demo version of Factorio?
---- @return nil                         
+--- 
+--- @return boolean
 function game_script.is_demo()
     return nil
 end
 
 
 --- Forces a reload of the scenario script from the original scenario location.
---- @return nil                         
+--- 
+--- @return nil
 function game_script.reload_script()
     return nil
 end
 
 
 --- Forces a reload of all mods.
---- @return nil                         
+--- 
+--- @return nil
 function game_script.reload_mods()
     return nil
 end
@@ -477,14 +483,16 @@ end
 
 --- Saves the current configuration of Atlas to a file. This will result in huge file containing all of the game
 --- graphics moved to as small space as possible.
---- @return nil                         
+--- 
+--- @return nil
 function game_script.save_atlas()
     return nil
 end
 
 
 --- Run internal consistency checks. Allegedly prints any errors it finds.
---- @return nil                         
+--- 
+--- @return nil
 function game_script.check_consistency()
     return nil
 end
@@ -526,7 +534,8 @@ end
 
 
 --- Forces the screenshot saving system to wait until all queued screenshots have been written to disk.
---- @return nil                         
+--- 
+--- @return nil
 function game_script.set_wait_for_screenshots_to_finish()
     return nil
 end
@@ -552,16 +561,20 @@ end
 --- Convert a table to a JSON string
 --- 
 --- @param data table                   
+--- @return string
 function game_script.table_to_json(data)
     data = nil
+    return nil
 end
 
 
 --- Convert a JSON string to a table.
 --- 
 --- @param json string                  
+--- @return AnyBasic                     The returned object, or `nil` if the JSON string was invalid.
 function game_script.json_to_table(json)
     json = nil
+    return nil
 end
 
 
@@ -569,6 +582,7 @@ end
 --- 
 --- @overload fun(filename: string, data: LocalisedString)
 --- @overload fun(filename: string, data: LocalisedString, append: boolean)
+--- 
 --- @param filename string              
 --- @param data LocalisedString         
 --- @param append boolean | nil          (Optional) 
@@ -594,7 +608,16 @@ end
 
 --- Remove players who are currently not connected from the map.
 --- 
+--- May raise the following events:
+---  - on_pre_player_removed:
+---    @see on_pre_player_removed@
+---    Raised instantly.
+---  - on_player_removed:
+---    @see on_player_removed@
+---    Raised instantly.
+--- 
 --- @overload fun()
+--- 
 --- @param players (LuaPlayer | string)[] | nil (Optional) 
 function game_script.remove_offline_players(players)
     players = {}
@@ -603,7 +626,8 @@ end
 
 --- Force a CRC check. Tells all peers to calculate their current map CRC; these CRC are then compared against each
 --- other. If a mismatch is detected, the game is desynced and some peers are forced to reconnect.
---- @return nil                         
+--- 
+--- @return nil
 function game_script.force_crc()
     return nil
 end
@@ -611,14 +635,29 @@ end
 
 --- Create a new force.
 --- 
+--- May raise the following events:
+---  - on_force_created:
+---    @see on_force_created@
+---    Raised instantly.
+--- 
 --- @param force string                 
+--- @return LuaForce                     The force that was just created
 function game_script.create_force(force)
     force = nil
+    return nil
 end
 
 
 --- Marks two forces to be merged together. All entities in the source force will be reassigned to the target force.
 --- The source force will then be destroyed.
+--- 
+--- May raise the following events:
+---  - on_forces_merging:
+---    @see on_forces_merging@
+---    Raised at future_tick.
+---  - on_forces_merged:
+---    @see on_forces_merged@
+---    Raised at future_tick.
 --- 
 --- @param source ForceIdentification   
 --- @param destination ForceIdentification
@@ -630,18 +669,27 @@ end
 
 --- Create a new surface.
 --- 
---- @overload fun(name: string)
+--- May raise the following events:
+---  - on_surface_created:
+---    @see on_surface_created@
+---    Raised instantly.
+--- 
+--- @overload fun(name: string): LuaSurface
+--- 
 --- @param name string                  
 --- @param settings MapGenSettings | nil (Optional) 
+--- @return LuaSurface                   The surface that was just created.
 function game_script.create_surface(name, settings)
     name = nil
     settings = nil
+    return nil
 end
 
 
 --- Instruct the server to save the map.
 --- 
 --- @overload fun()
+--- 
 --- @param name string | nil             (Optional) 
 function game_script.server_save(name)
     name = nil
@@ -651,6 +699,7 @@ end
 --- Instruct the game to perform an auto-save.
 --- 
 --- @overload fun()
+--- 
 --- @param name string | nil             (Optional) 
 function game_script.auto_save(name)
     name = nil
@@ -658,6 +707,14 @@ end
 
 
 --- Deletes the given surface and all entities on it.
+--- 
+--- May raise the following events:
+---  - on_pre_surface_deleted:
+---    @see on_pre_surface_deleted@
+---    Raised at future_tick.
+---  - on_surface_deleted:
+---    @see on_surface_deleted@
+---    Raised at future_tick.
 --- 
 --- @param surface string | LuaSurface  
 function game_script.delete_surface(surface)
@@ -667,14 +724,16 @@ end
 
 --- Disables replay saving for the current save file. Once done there's no way to re-enable replay saving for the save
 --- file without loading an old save.
---- @return nil                         
+--- 
+--- @return nil
 function game_script.disable_replay()
     return nil
 end
 
 
 --- Disables tutorial triggers, that unlock new tutorials and show notices about unlocked tutorials.
---- @return nil                         
+--- 
+--- @return nil
 function game_script.disable_tutorial_triggers()
     return nil
 end
@@ -691,6 +750,7 @@ end
 --- Print text to the chat console all players.
 --- 
 --- @overload fun(message: LocalisedString)
+--- 
 --- @param message LocalisedString      
 --- @param color Color | nil             (Optional) 
 function game_script.print(message, color)
@@ -702,15 +762,19 @@ end
 --- Creates a deterministic standalone random generator with the given seed or if a seed is not provided the initial
 --- map seed is used.
 --- 
---- @overload fun()
+--- @overload fun(): LuaRandomGenerator
+--- 
 --- @param seed uint | nil               (Optional) 
+--- @return LuaRandomGenerator
 function game_script.create_random_generator(seed)
     seed = nil
+    return nil
 end
 
 
 --- Goes over all items, entities, tiles, recipes, technologies among other things and logs if the locale is incorrect.
---- @return nil                         
+--- 
+--- @return nil
 function game_script.check_prototype_translations()
     return nil
 end
@@ -733,23 +797,36 @@ end
 --- Checks if the given SoundPath is valid.
 --- 
 --- @param sound_path SoundPath         
+--- @return boolean
 function game_script.is_valid_sound_path(sound_path)
     sound_path = nil
+    return nil
 end
 
 
 --- Checks if the given SpritePath is valid and contains a loaded sprite.
 --- 
 --- @param sprite_path SpritePath       
+--- @return boolean
 function game_script.is_valid_sprite_path(sprite_path)
     sprite_path = nil
+    return nil
 end
 
 
 --- Kicks the given player from this multiplayer game. Does nothing if this is a single player game or if the player
 --- running this isn't an admin.
 --- 
+--- May raise the following events:
+---  - on_player_kicked:
+---    @see on_player_kicked@
+---    Raised instantly.
+---  - on_console_command:
+---    @see on_console_command@
+---    Raised instantly.
+--- 
 --- @overload fun(player: PlayerIdentification)
+--- 
 --- @param player PlayerIdentification  
 --- @param reason LocalisedString | nil  (Optional) 
 function game_script.kick_player(player, reason)
@@ -761,7 +838,16 @@ end
 --- Bans the given player from this multiplayer game. Does nothing if this is a single player game of if the player
 --- running this isn't an admin.
 --- 
+--- May raise the following events:
+---  - on_player_banned:
+---    @see on_player_banned@
+---    Raised instantly.
+---  - on_console_command:
+---    @see on_console_command@
+---    Raised instantly.
+--- 
 --- @overload fun(player: PlayerIdentification)
+--- 
 --- @param player PlayerIdentification  
 --- @param reason LocalisedString | nil  (Optional) 
 function game_script.ban_player(player, reason)
@@ -773,6 +859,14 @@ end
 --- Unbans the given player from this multiplayer game. Does nothing if this is a single player game of if the player
 --- running this isn't an admin.
 --- 
+--- May raise the following events:
+---  - on_player_unbanned:
+---    @see on_player_unbanned@
+---    Raised instantly.
+---  - on_console_command:
+---    @see on_console_command@
+---    Raised instantly.
+--- 
 --- @param player PlayerIdentification  
 function game_script.unban_player(player)
     player = nil
@@ -780,6 +874,11 @@ end
 
 
 --- Purges the given players messages from the game. Does nothing if the player running this isn't an admin.
+--- 
+--- May raise the following events:
+---  - on_console_command:
+---    @see on_console_command@
+---    Raised instantly.
 --- 
 --- @param player PlayerIdentification  
 function game_script.purge_player(player)
@@ -789,6 +888,14 @@ end
 
 --- Mutes the given player. Does nothing if the player running this isn't an admin.
 --- 
+--- May raise the following events:
+---  - on_player_muted:
+---    @see on_player_muted@
+---    Raised instantly.
+---  - on_console_command:
+---    @see on_console_command@
+---    Raised instantly.
+--- 
 --- @param player PlayerIdentification  
 function game_script.mute_player(player)
     player = nil
@@ -797,6 +904,14 @@ end
 
 --- Unmutes the given player. Does nothing if the player running this isn't an admin.
 --- 
+--- May raise the following events:
+---  - on_player_unmuted:
+---    @see on_player_unmuted@
+---    Raised instantly.
+---  - on_console_command:
+---    @see on_console_command@
+---    Raised instantly.
+--- 
 --- @param player PlayerIdentification  
 function game_script.unmute_player(player)
     player = nil
@@ -804,14 +919,16 @@ end
 
 
 --- Counts how many distinct groups of pipes exist in the world.
---- @return nil                         
+--- 
+--- @return nil
 function game_script.count_pipe_groups()
     return nil
 end
 
 
 --- Is the map loaded is multiplayer?
---- @return nil                         
+--- 
+--- @return boolean
 function game_script.is_multiplayer()
     return nil
 end
@@ -819,15 +936,19 @@ end
 
 --- Gets the number of entities that are active (updated each tick).
 --- 
---- @overload fun()
+--- @overload fun(): uint
+--- 
 --- @param surface SurfaceIdentification | nil (Optional) 
+--- @return uint
 function game_script.get_active_entities_count(surface)
     surface = nil
+    return nil
 end
 
 
 --- Gets the map exchange string for the map generation settings that were used to create this map.
---- @return nil                         
+--- 
+--- @return string
 function game_script.get_map_exchange_string()
     return nil
 end
@@ -836,8 +957,10 @@ end
 --- Convert a map exchange string to map gen settings and map settings.
 --- 
 --- @param map_exchange_string string   
+--- @return MapExchangeStringData
 function game_script.parse_map_exchange_string(map_exchange_string)
     map_exchange_string = nil
+    return nil
 end
 
 
@@ -848,26 +971,33 @@ end
 
 --- Gets train stops matching the given filters.
 --- 
---- @overload fun()
+--- @overload fun(): LuaEntity[]
+--- 
 --- @param params LuaGameScript_get_train_stops_p | nil (Optional) 
+--- @return LuaEntity[]
 function game_script.get_train_stops(params)
     params = nil
+    return {}
 end
 
 
 --- Gets the given player or returns `nil` if no player is found.
 --- 
 --- @param player uint | string         
+--- @return LuaPlayer
 function game_script.get_player(player)
     player = nil
+    return nil
 end
 
 
 --- Gets the given surface or returns `nil` if no surface is found.
 --- 
 --- @param surface uint | string        
+--- @return LuaSurface
 function game_script.get_surface(surface)
     surface = nil
+    return nil
 end
 
 
@@ -875,38 +1005,48 @@ end
 --- 
 --- @see LuaProfiler @
 --- 
---- @overload fun()
+--- @overload fun(): LuaProfiler
+--- 
 --- @param stopped boolean | nil         (Optional) 
+--- @return LuaProfiler
 function game_script.create_profiler(stopped)
     stopped = nil
+    return nil
 end
 
 
 --- Evaluate an expression, substituting variables as provided. For details on the formula, see the relevant page on
 --- the Factorio wiki.
 --- 
---- @overload fun(expression: string)
+--- @overload fun(expression: string): double
+--- 
 --- @param expression string            
 --- @param variables table<string, double> | nil (Optional) 
+--- @return double
 function game_script.evaluate_expression(expression, variables)
     expression = nil
     variables = nil
+    return nil
 end
 
 
 --- Returns a dictionary of all LuaEntityPrototypes that fit the given filters. The prototypes are indexed by `name`.
 --- 
 --- @param filters EntityPrototypeFilter[]
+--- @return LuaCustomTable<string, LuaEntityPrototype>
 function game_script.get_filtered_entity_prototypes(filters)
     filters = {}
+    return nil
 end
 
 
 --- Returns a dictionary of all LuaItemPrototypes that fit the given filters. The prototypes are indexed by `name`.
 --- 
 --- @param filters ItemPrototypeFilter[]
+--- @return LuaCustomTable<string, LuaItemPrototype>
 function game_script.get_filtered_item_prototypes(filters)
     filters = {}
+    return nil
 end
 
 
@@ -914,8 +1054,10 @@ end
 --- `name`.
 --- 
 --- @param filters EquipmentPrototypeFilter[]
+--- @return LuaCustomTable<string, LuaEquipmentPrototype>
 function game_script.get_filtered_equipment_prototypes(filters)
     filters = {}
+    return nil
 end
 
 
@@ -923,8 +1065,10 @@ end
 --- `name`.
 --- 
 --- @param filters ModSettingPrototypeFilter[]
+--- @return LuaCustomTable<string, LuaModSettingPrototype>
 function game_script.get_filtered_mod_setting_prototypes(filters)
     filters = {}
+    return nil
 end
 
 
@@ -932,16 +1076,20 @@ end
 --- `name`.
 --- 
 --- @param filters AchievementPrototypeFilter[]
+--- @return LuaCustomTable<string, LuaAchievementPrototype>
 function game_script.get_filtered_achievement_prototypes(filters)
     filters = {}
+    return nil
 end
 
 
 --- Returns a dictionary of all LuaTilePrototypes that fit the given filters. The prototypes are indexed by `name`.
 --- 
 --- @param filters TilePrototypeFilter[]
+--- @return LuaCustomTable<string, LuaTilePrototype>
 function game_script.get_filtered_tile_prototypes(filters)
     filters = {}
+    return nil
 end
 
 
@@ -949,24 +1097,30 @@ end
 --- `name`.
 --- 
 --- @param filters DecorativePrototypeFilter[]
+--- @return LuaCustomTable<string, LuaDecorativePrototype>
 function game_script.get_filtered_decorative_prototypes(filters)
     filters = {}
+    return nil
 end
 
 
 --- Returns a dictionary of all LuaFluidPrototypes that fit the given filters. The prototypes are indexed by `name`.
 --- 
 --- @param filters FluidPrototypeFilter[]
+--- @return LuaCustomTable<string, LuaFluidPrototype>
 function game_script.get_filtered_fluid_prototypes(filters)
     filters = {}
+    return nil
 end
 
 
 --- Returns a dictionary of all LuaRecipePrototypes that fit the given filters. The prototypes are indexed by `name`.
 --- 
 --- @param filters RecipePrototypeFilter[]
+--- @return LuaCustomTable<string, LuaRecipePrototype>
 function game_script.get_filtered_recipe_prototypes(filters)
     filters = {}
+    return nil
 end
 
 
@@ -974,8 +1128,10 @@ end
 --- `name`.
 --- 
 --- @param filters TechnologyPrototypeFilter[]
+--- @return LuaCustomTable<string, LuaTechnologyPrototype>
 function game_script.get_filtered_technology_prototypes(filters)
     filters = {}
+    return nil
 end
 
 
@@ -984,8 +1140,10 @@ end
 --- @see LuaInventory#resize @
 --- 
 --- @param size uint16                  
+--- @return LuaInventory
 function game_script.create_inventory(size)
     size = nil
+    return nil
 end
 
 
@@ -993,15 +1151,19 @@ end
 --- 
 --- @see LuaGameScript#create_inventory @
 --- 
---- @overload fun()
+--- @overload fun(): table<string, LuaInventory[]>
+--- 
 --- @param mod string | nil              (Optional) 
+--- @return table<string, LuaInventory[]> A mapping of mod name to array of inventories owned by that mod.
 function game_script.get_script_inventories(mod)
     mod = nil
+    return nil
 end
 
 
 --- Resets the amount of time played for this map.
---- @return nil                         
+--- 
+--- @return nil
 function game_script.reset_time_played()
     return nil
 end
@@ -1010,15 +1172,19 @@ end
 --- Deflates and base64 encodes the given string.
 --- 
 --- @param string string                
+--- @return string                       The encoded string or `nil` if the encode failed.
 function game_script.encode_string(string)
     string = nil
+    return nil
 end
 
 
 --- Base64 decodes and inflates the given string.
 --- 
 --- @param string string                
+--- @return string                       The decoded string or `nil` if the decode failed.
 function game_script.decode_string(string)
     string = nil
+    return nil
 end
 

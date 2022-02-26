@@ -31,21 +31,24 @@ profiler.object_name = nil
 
 
 --- Resets the clock, also restarting it.
---- @return nil                         
+--- 
+--- @return nil
 function profiler.reset()
     return nil
 end
 
 
 --- Stops the clock.
---- @return nil                         
+--- 
+--- @return nil
 function profiler.stop()
     return nil
 end
 
 
 --- Start the clock again, without resetting it.
---- @return nil                         
+--- 
+--- @return nil
 function profiler.restart()
     return nil
 end
@@ -69,7 +72,8 @@ end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function profiler.help()
     return nil
 end

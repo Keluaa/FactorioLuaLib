@@ -112,14 +112,16 @@ technology.object_name = nil
 
 
 --- Reload this technology from its prototype.
---- @return nil                         
+--- 
+--- @return nil
 function technology.reload()
     return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function technology.help()
     return nil
 end

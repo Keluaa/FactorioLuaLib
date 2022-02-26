@@ -1902,6 +1902,9 @@ These are the effects of the vanilla Productivity Module 3 (up to floating point
 --- @alias PrototypeFilter TechnologyPrototypeFilter | EquipmentPrototypeFilter | AchievementPrototypeFilter | DecorativePrototypeFilter | RecipePrototypeFilter | FluidPrototypeFilter | EntityPrototypeFilter | TilePrototypeFilter | ItemPrototypeFilter
 
 
+--- @alias Position MapPosition
+
+
 --- @alias BlueprintCircuitConnection table
 
 

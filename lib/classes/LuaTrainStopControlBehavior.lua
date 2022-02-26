@@ -67,7 +67,8 @@ train_stop_control_behavior.object_name = nil
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function train_stop_control_behavior.help()
     return nil
 end

@@ -169,15 +169,19 @@ train.object_name = nil
 
 --- Get the amount of a particular item stored in the train.
 --- 
---- @overload fun()
+--- @overload fun(): uint
+--- 
 --- @param item string | nil             (Optional) 
+--- @return uint
 function train.get_item_count(item)
     item = nil
+    return nil
 end
 
 
 --- Get a mapping of the train's inventory.
---- @return nil                         
+--- 
+--- @return table<string, uint>          The counts, indexed by item names.
 function train.get_contents()
     return nil
 end
@@ -186,8 +190,10 @@ end
 --- Remove some items from the train.
 --- 
 --- @param stack ItemStackIdentification
+--- @return uint                         Number of items actually removed.
 function train.remove_item(stack)
     stack = nil
+    return nil
 end
 
 
@@ -200,7 +206,8 @@ end
 
 
 --- Clear all items in this train.
---- @return nil                         
+--- 
+--- @return nil
 function train.clear_items_inside()
     return nil
 end
@@ -208,24 +215,31 @@ end
 
 --- Checks if the path is invalid and tries to re-path if it isn't.
 --- 
---- @overload fun()
+--- @overload fun(): boolean
+--- 
 --- @param force boolean | nil           (Optional) 
+--- @return boolean                      If the train has a path after the repath attempt.
 function train.recalculate_path(force)
     force = nil
+    return nil
 end
 
 
 --- Get the amount of a particular fluid stored in the train.
 --- 
---- @overload fun()
+--- @overload fun(): double
+--- 
 --- @param fluid string | nil            (Optional) 
+--- @return double
 function train.get_fluid_count(fluid)
     fluid = nil
+    return nil
 end
 
 
 --- Gets a mapping of the train's fluid inventory.
---- @return nil                         
+--- 
+--- @return table<string, double>        The counts, indexed by fluid names.
 function train.get_fluid_contents()
     return nil
 end
@@ -234,21 +248,26 @@ end
 --- Remove some fluid from the train.
 --- 
 --- @param fluid Fluid                  
+--- @return double                       The amount of fluid actually removed.
 function train.remove_fluid(fluid)
     fluid = nil
+    return nil
 end
 
 
 --- Inserts the given fluid into the first available location in this train.
 --- 
 --- @param fluid Fluid                  
+--- @return double                       The amount inserted.
 function train.insert_fluid(fluid)
     fluid = nil
+    return nil
 end
 
 
 --- Clears all fluids in this train.
---- @return nil                         
+--- 
+--- @return nil
 function train.clear_fluids_inside()
     return nil
 end
@@ -263,14 +282,16 @@ end
 
 
 --- Gets all rails under the train.
---- @return nil                         
+--- 
+--- @return LuaEntity[]
 function train.get_rails()
-    return nil
+    return {}
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function train.help()
     return nil
 end

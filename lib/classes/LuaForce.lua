@@ -326,20 +326,24 @@ force.object_name = nil
 --- Count entities of given type.
 --- 
 --- @param name string                  
+--- @return uint                         Number of entities of given prototype belonging to this force.
 function force.get_entity_count(name)
     name = nil
+    return nil
 end
 
 
 --- Disable research for this force.
---- @return nil                         
+--- 
+--- @return nil
 function force.disable_research()
     return nil
 end
 
 
 --- Enable research for this force.
---- @return nil                         
+--- 
+--- @return nil
 function force.enable_research()
     return nil
 end
@@ -347,7 +351,8 @@ end
 
 --- Disable all recipes and technologies. Only recipes and technologies enabled explicitly will be useable from this
 --- point.
---- @return nil                         
+--- 
+--- @return nil
 function force.disable_all_prototypes()
     return nil
 end
@@ -356,28 +361,32 @@ end
 --- Enables all recipes and technologies. The opposite of LuaForce::disable_all_prototypes
 --- 
 --- @see LuaForce#disable_all_prototypes @
---- @return nil                         
+--- 
+--- @return nil
 function force.enable_all_prototypes()
     return nil
 end
 
 
 --- Load the original version of all recipes from the prototypes.
---- @return nil                         
+--- 
+--- @return nil
 function force.reset_recipes()
     return nil
 end
 
 
 --- Unlock all recipes.
---- @return nil                         
+--- 
+--- @return nil
 function force.enable_all_recipes()
     return nil
 end
 
 
 --- Unlock all technologies.
---- @return nil                         
+--- 
+--- @return nil
 function force.enable_all_technologies()
     return nil
 end
@@ -385,7 +394,13 @@ end
 
 --- Research all technologies.
 --- 
+--- May raise the following events:
+---  - on_research_finished:
+---    @see on_research_finished@
+---    Raised instantly.
+--- 
 --- @overload fun()
+--- 
 --- @param include_disabled_prototypes boolean | nil (Optional) 
 function force.research_all_technologies(include_disabled_prototypes)
     include_disabled_prototypes = nil
@@ -393,14 +408,21 @@ end
 
 
 --- Load the original versions of technologies from prototypes. Preserves research state of technologies.
---- @return nil                         
+--- 
+--- @return nil
 function force.reset_technologies()
     return nil
 end
 
 
 --- Reset everything. All technologies are set to not researched, all modifiers are set to default values.
---- @return nil                         
+--- 
+--- May raise the following events:
+---  - on_force_reset:
+---    @see on_force_reset@
+---    Raised instantly.
+--- 
+--- @return nil
 function force.reset()
     return nil
 end
@@ -408,7 +430,13 @@ end
 
 --- Reapplies all possible research effects, including unlocked recipes. Any custom changes are lost. Preserves
 --- research state of technologies.
---- @return nil                         
+--- 
+--- May raise the following events:
+---  - on_technology_effects_reset:
+---    @see on_technology_effects_reset@
+---    Raised instantly.
+--- 
+--- @return nil
 function force.reset_technology_effects()
     return nil
 end
@@ -428,6 +456,7 @@ end
 --- Erases chart data for this force.
 --- 
 --- @overload fun()
+--- 
 --- @param surface SurfaceIdentification | nil (Optional) 
 function force.clear_chart(surface)
     surface = nil
@@ -435,7 +464,8 @@ end
 
 
 --- Force a rechart of the whole chart.
---- @return nil                         
+--- 
+--- @return nil
 function force.rechart()
     return nil
 end
@@ -444,6 +474,7 @@ end
 --- Chart all generated chunks.
 --- 
 --- @overload fun()
+--- 
 --- @param surface SurfaceIdentification | nil (Optional) 
 function force.chart_all(surface)
     surface = nil
@@ -454,9 +485,11 @@ end
 --- 
 --- @param surface SurfaceIdentification
 --- @param position ChunkPosition       
+--- @return boolean
 function force.is_chunk_charted(surface, position)
     surface = nil
     position = nil
+    return nil
 end
 
 
@@ -464,15 +497,18 @@ end
 --- 
 --- @param surface SurfaceIdentification
 --- @param position ChunkPosition       
+--- @return boolean
 function force.is_chunk_visible(surface, position)
     surface = nil
     position = nil
+    return nil
 end
 
 
 --- Cancels pending chart requests for the given surface or all surfaces.
 --- 
 --- @overload fun()
+--- 
 --- @param surface SurfaceIdentification | nil (Optional) 
 function force.cancel_charting(surface)
     surface = nil
@@ -480,8 +516,10 @@ end
 
 
 --- @param ammo string                  
+--- @return double
 function force.get_ammo_damage_modifier(ammo)
     ammo = nil
+    return nil
 end
 
 
@@ -494,8 +532,10 @@ end
 
 
 --- @param ammo string                  
+--- @return double
 function force.get_gun_speed_modifier(ammo)
     ammo = nil
+    return nil
 end
 
 
@@ -508,8 +548,10 @@ end
 
 
 --- @param turret string                
+--- @return double
 function force.get_turret_attack_modifier(turret)
     turret = nil
+    return nil
 end
 
 
@@ -523,6 +565,11 @@ end
 
 --- Add `other` force to this force's cease fire list. Forces on the cease fire list won't be targeted for attack.
 --- 
+--- May raise the following events:
+---  - on_force_cease_fire_changed:
+---    @see on_force_cease_fire_changed@
+---    Raised instantly.
+--- 
 --- @param other ForceIdentification    
 --- @param cease_fire boolean           
 function force.set_cease_fire(other, cease_fire)
@@ -534,13 +581,20 @@ end
 --- Is `other` force in this force's cease fire list?
 --- 
 --- @param other ForceIdentification    
+--- @return boolean
 function force.get_cease_fire(other)
     other = nil
+    return nil
 end
 
 
 --- Add `other` force to this force's friends list. Friends have unrestricted access to buildings and turrets won't
 --- fire at them.
+--- 
+--- May raise the following events:
+---  - on_force_friends_changed:
+---    @see on_force_friends_changed@
+---    Raised instantly.
 --- 
 --- @param other ForceIdentification    
 --- @param friend boolean               
@@ -553,20 +607,24 @@ end
 --- Is `other` force in this force's friends list.
 --- 
 --- @param other ForceIdentification    
+--- @return boolean
 function force.get_friend(other)
     other = nil
+    return nil
 end
 
 
 --- Is pathfinder busy? When the pathfinder is busy, it won't accept any more pathfinding requests.
---- @return nil                         
+--- 
+--- @return boolean
 function force.is_pathfinder_busy()
     return nil
 end
 
 
 --- Kill all units and flush the pathfinder.
---- @return nil                         
+--- 
+--- @return nil
 function force.kill_all_units()
     return nil
 end
@@ -574,9 +632,11 @@ end
 
 --- @param position MapPosition         
 --- @param surface SurfaceIdentification
+--- @return LuaLogisticNetwork           The found network or `nil`.
 function force.find_logistic_network_by_position(position, surface)
     position = nil
     surface = nil
+    return nil
 end
 
 
@@ -589,8 +649,10 @@ end
 
 
 --- @param surface SurfaceIdentification
+--- @return MapPosition
 function force.get_spawn_position(surface)
     surface = nil
+    return nil
 end
 
 
@@ -605,8 +667,10 @@ end
 --- Gets the count of a given item launched in rockets.
 --- 
 --- @param item string                  
+--- @return uint                         The count of the item that has been launched.
 function force.get_item_launched(item)
     item = nil
+    return nil
 end
 
 
@@ -623,6 +687,7 @@ end
 --- Print text to the chat console of all players on this force.
 --- 
 --- @overload fun(message: LocalisedString)
+--- 
 --- @param message LocalisedString      
 --- @param color Color | nil             (Optional) 
 function force.print(message, color)
@@ -631,40 +696,56 @@ function force.print(message, color)
 end
 
 
---- @overload fun()
+--- @overload fun(): LuaTrain[]
+--- 
 --- @param surface SurfaceIdentification | nil (Optional) 
+--- @return LuaTrain[]
 function force.get_trains(surface)
     surface = nil
+    return {}
 end
 
 
 --- Adds a custom chart tag to the given surface and returns the new tag or `nil` if the given position isn't valid for
 --- a chart tag.
 --- 
+--- May raise the following events:
+---  - on_chart_tag_added:
+---    @see on_chart_tag_added@
+---    Raised instantly, conditionally.
+---    Raised if the chart tag was successfully added.
+--- 
 --- @param surface SurfaceIdentification
 --- @param tag ChartTagSpec             
+--- @return LuaCustomChartTag
 function force.add_chart_tag(surface, tag)
     surface = nil
     tag = nil
+    return nil
 end
 
 
 --- Finds all custom chart tags within the given bounding box on the given surface.
 --- 
---- @overload fun(surface: SurfaceIdentification)
+--- @overload fun(surface: SurfaceIdentification): LuaCustomChartTag[]
+--- 
 --- @param surface SurfaceIdentification
 --- @param area BoundingBox | nil        (Optional) 
+--- @return LuaCustomChartTag[]
 function force.find_chart_tags(surface, area)
     surface = nil
     area = nil
+    return {}
 end
 
 
 --- Gets the saved progress for the given technology or `nil` if there is no saved progress.
 --- 
 --- @param technology TechnologyIdentification
+--- @return double                       The progress as a percent.
 function force.get_saved_technology_progress(technology)
     technology = nil
+    return nil
 end
 
 
@@ -680,7 +761,8 @@ end
 
 
 --- Resets evolution for this force to zero.
---- @return nil                         
+--- 
+--- @return nil
 function force.reset_evolution()
     return nil
 end
@@ -706,18 +788,23 @@ end
 
 --- Gets train stops matching the given filters.
 --- 
---- @overload fun()
+--- @overload fun(): LuaEntity[]
+--- 
 --- @param params LuaForce_get_train_stops_p | nil (Optional) 
+--- @return LuaEntity[]
 function force.get_train_stops(params)
     params = nil
+    return {}
 end
 
 
 --- Gets if the given recipe is explicitly disabled from being hand crafted.
 --- 
 --- @param recipe string | LuaRecipe    
+--- @return boolean
 function force.get_hand_crafting_disabled_for_recipe(recipe)
     recipe = nil
+    return nil
 end
 
 
@@ -735,14 +822,23 @@ end
 --- Add this technology to the back of the research queue if the queue is enabled. Otherwise, set this technology to be
 --- researched now.
 --- 
+--- May raise the following events:
+---  - on_research_started:
+---    @see on_research_started@
+---    Raised instantly, conditionally.
+---    Raised if the technology was successfully added.
+--- 
 --- @param technology TechnologyIdentification
+--- @return boolean                      Whether the technology was successfully added.
 function force.add_research(technology)
     technology = nil
+    return nil
 end
 
 
 --- Stop the research currently in progress. This will remove any dependent technologies from the research queue.
---- @return nil                         
+--- 
+--- @return nil
 function force.cancel_current_research()
     return nil
 end
@@ -752,9 +848,11 @@ end
 --- 
 --- @param prototype EntityPrototypeIdentification
 --- @param link_id uint                 
+--- @return LuaInventory
 function force.get_linked_inventory(prototype, link_id)
     prototype = nil
     link_id = nil
+    return nil
 end
 
 
@@ -762,8 +860,10 @@ end
 --- equivalent to checking the `friend` ForceCondition.
 --- 
 --- @param other ForceIdentification    
+--- @return boolean
 function force.is_friend(other)
     other = nil
+    return nil
 end
 
 
@@ -771,13 +871,16 @@ end
 --- equivalent to checking the `enemy` ForceCondition.
 --- 
 --- @param other ForceIdentification    
+--- @return boolean
 function force.is_enemy(other)
     other = nil
+    return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function force.help()
     return nil
 end

@@ -287,16 +287,18 @@ item_stack.object_name = nil
 
 
 --- Is this blueprint item setup? I.e. is it a non-empty blueprint?
---- @return nil                         
+--- 
+--- @return boolean
 function item_stack.is_blueprint_setup()
     return nil
 end
 
 
 --- The entities in this blueprint.
---- @return nil                         
+--- 
+--- @return BlueprintEntity[]
 function item_stack.get_blueprint_entities()
-    return nil
+    return {}
 end
 
 
@@ -344,33 +346,42 @@ end
 --- 
 --- @see LuaItemStack#set_stack @
 --- 
---- @overload fun()
+--- @overload fun(): boolean
+--- 
 --- @param stack ItemStackIdentification | nil (Optional) 
+--- @return boolean
 function item_stack.can_set_stack(stack)
     stack = nil
+    return nil
 end
 
 
 --- Set this item stack to another item stack.
 --- 
---- @overload fun()
+--- @overload fun(): boolean
+--- 
 --- @param stack ItemStackIdentification | nil (Optional) 
+--- @return boolean                      Was the stack set successfully?
 function item_stack.set_stack(stack)
     stack = nil
+    return nil
 end
 
 
 --- Transfers the given item stack into this item stack.
 --- 
 --- @param stack ItemStackIdentification
+--- @return boolean                      `true` if the full stack was transferred.
 function item_stack.transfer_stack(stack)
     stack = nil
+    return nil
 end
 
 
 --- Export a supported item (blueprint, blueprint-book, deconstruction-planner, upgrade-planner, item-with-tags) to a
 --- string.
---- @return nil                         
+--- 
+--- @return string                       The exported string
 function item_stack.export_stack()
     return nil
 end
@@ -380,30 +391,36 @@ end
 --- string.
 --- 
 --- @param data string                  
+--- @return int                          0 if the import succeeded with no errors. -1 if the import succeeded with errors. 1 if the import failed.
 function item_stack.import_stack(data)
     data = nil
+    return nil
 end
 
 
 --- Swaps this item stack with the given item stack if allowed.
 --- 
 --- @param stack LuaItemStack           
+--- @return boolean                      Whether the 2 stacks were swapped successfully.
 function item_stack.swap_stack(stack)
     stack = nil
+    return nil
 end
 
 
 --- Clear this item stack.
---- @return nil                         
+--- 
+--- @return nil
 function item_stack.clear()
     return nil
 end
 
 
 --- A list of the tiles in this blueprint.
---- @return nil                         
+--- 
+--- @return Tile[]
 function item_stack.get_blueprint_tiles()
-    return nil
+    return {}
 end
 
 
@@ -418,8 +435,10 @@ end
 --- Access the inner inventory of an item.
 --- 
 --- @param inventory defines_inventory  
+--- @return LuaInventory                 `nil` if there is no inventory with the given index.
 function item_stack.get_inventory(inventory)
     inventory = nil
+    return nil
 end
 
 
@@ -434,8 +453,10 @@ end
 --- @field raise_built boolean | nil     (Optional)  If true; [defines.events.script_raised_built](defines.events.script_raised_built) will be fired on successful entity creation. Note: this is ignored if by_player is provided.
 
 --- @param params LuaItemStack_build_blueprint_p
+--- @return LuaEntity[]                  Array of created ghosts
 function item_stack.build_blueprint(params)
     params = nil
+    return {}
 end
 
 
@@ -483,16 +504,20 @@ end
 --- Sets up this blueprint using the found blueprintable entities/tiles on the surface.
 --- 
 --- @param params LuaItemStack_create_blueprint_p
+--- @return table<uint, LuaEntity>       The blueprint entity index to source entity mapping.
 function item_stack.create_blueprint(params)
     params = nil
+    return nil
 end
 
 
 --- Gets the tag with the given name or returns `nil` if it doesn't exist.
 --- 
 --- @param tag_name string              
+--- @return AnyBasic
 function item_stack.get_tag(tag_name)
     tag_name = nil
+    return nil
 end
 
 
@@ -509,13 +534,16 @@ end
 --- Removes a tag with the given name.
 --- 
 --- @param tag string                   
+--- @return boolean                      If the tag existed and was removed.
 function item_stack.remove_tag(tag)
     tag = nil
+    return nil
 end
 
 
 --- Clears this blueprint item.
---- @return nil                         
+--- 
+--- @return nil
 function item_stack.clear_blueprint()
     return nil
 end
@@ -524,8 +552,10 @@ end
 --- Gets the entity filter at the given index for this deconstruction item.
 --- 
 --- @param index uint                   
+--- @return string
 function item_stack.get_entity_filter(index)
     index = nil
+    return nil
 end
 
 
@@ -533,17 +563,21 @@ end
 --- 
 --- @param index uint                   
 --- @param filter string | LuaEntityPrototype | LuaEntity
+--- @return boolean                      Whether the new filter was successfully set (ie. was valid).
 function item_stack.set_entity_filter(index, filter)
     index = nil
     filter = nil
+    return nil
 end
 
 
 --- Gets the tile filter at the given index for this deconstruction item.
 --- 
 --- @param index uint                   
+--- @return string
 function item_stack.get_tile_filter(index)
     index = nil
+    return nil
 end
 
 
@@ -551,21 +585,25 @@ end
 --- 
 --- @param index uint                   
 --- @param filter string | LuaTilePrototype | LuaTile
+--- @return boolean                      Whether the new filter was successfully set (ie. was valid).
 function item_stack.set_tile_filter(index, filter)
     index = nil
     filter = nil
+    return nil
 end
 
 
 --- Clears all settings/filters on this deconstruction item resetting it to default values.
---- @return nil                         
+--- 
+--- @return nil
 function item_stack.clear_deconstruction_item()
     return nil
 end
 
 
 --- Clears all settings/filters on this upgrade item resetting it to default values.
---- @return nil                         
+--- 
+--- @return nil
 function item_stack.clear_upgrade_item()
     return nil
 end
@@ -575,9 +613,11 @@ end
 --- 
 --- @param index uint                   
 --- @param type string                  
+--- @return UpgradeFilter
 function item_stack.get_mapper(index, type)
     index = nil
     type = nil
+    return nil
 end
 
 
@@ -594,7 +634,8 @@ end
 
 
 --- Gets the number of entities in this blueprint item.
---- @return nil                         
+--- 
+--- @return uint
 function item_stack.get_blueprint_entity_count()
     return nil
 end
@@ -603,8 +644,10 @@ end
 --- Gets the tags for the given blueprint entity index in this blueprint item.
 --- 
 --- @param index uint                   
+--- @return Tags
 function item_stack.get_blueprint_entity_tags(index)
     index = nil
+    return nil
 end
 
 
@@ -622,9 +665,11 @@ end
 --- 
 --- @param index uint                   
 --- @param tag string                   
+--- @return AnyBasic
 function item_stack.get_blueprint_entity_tag(index, tag)
     index = nil
     tag = nil
+    return nil
 end
 
 
@@ -642,14 +687,16 @@ end
 
 --- Creates the equipment grid for this item if it doesn't exist and this is an item-with-entity-data that supports
 --- equipment grids.
---- @return nil                         
+--- 
+--- @return LuaEquipmentGrid
 function item_stack.create_grid()
     return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function item_stack.help()
     return nil
 end

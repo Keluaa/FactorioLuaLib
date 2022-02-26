@@ -69,13 +69,16 @@ gui.object_name = nil
 --- doesn't validate if file exists.
 --- 
 --- @param sprite_path SpritePath       
+--- @return boolean
 function gui.is_valid_sprite_path(sprite_path)
     sprite_path = nil
+    return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function gui.help()
     return nil
 end

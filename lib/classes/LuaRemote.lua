@@ -36,8 +36,10 @@ end
 --- Removes an interface with the given name.
 --- 
 --- @param name string                  
+--- @return boolean                      Whether the interface was removed. `False` if the interface didn't exist.
 function remote.remove_interface(name)
     name = nil
+    return nil
 end
 
 
@@ -46,8 +48,10 @@ end
 --- @param interface string             
 --- @param function_ string             
 --- @vararg Any                          Arguments to pass to the called function.
+--- @return Any
 function remote.call(interface, function_, ...)
     interface = nil
     function_ = nil
+    return nil
 end
 

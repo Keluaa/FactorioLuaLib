@@ -101,14 +101,16 @@ recipe.object_name = nil
 
 
 --- Reload the recipe from the prototype.
---- @return nil                         
+--- 
+--- @return nil
 function recipe.reload()
     return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function recipe.help()
     return nil
 end

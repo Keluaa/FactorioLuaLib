@@ -1061,21 +1061,26 @@ entity_prototype.object_name = nil
 --- Test whether this entity prototype has a certain flag set.
 --- 
 --- @param flag string                  
+--- @return boolean                      `true` if this prototype has the given flag set.
 function entity_prototype.has_flag(flag)
     flag = nil
+    return nil
 end
 
 
 --- Gets the base size of the given inventory on this entity or `nil` if the given inventory doesn't exist.
 --- 
 --- @param index defines_inventory      
+--- @return uint
 function entity_prototype.get_inventory_size(index)
     index = nil
+    return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function entity_prototype.help()
     return nil
 end

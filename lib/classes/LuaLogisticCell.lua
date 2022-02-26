@@ -104,29 +104,36 @@ logistic_cell.object_name = nil
 --- Is a given position within the logistic range of this cell?
 --- 
 --- @param position MapPosition         
+--- @return boolean
 function logistic_cell.is_in_logistic_range(position)
     position = nil
+    return nil
 end
 
 
 --- Is a given position within the construction range of this cell?
 --- 
 --- @param position MapPosition         
+--- @return boolean
 function logistic_cell.is_in_construction_range(position)
     position = nil
+    return nil
 end
 
 
 --- Are two cells neighbours?
 --- 
 --- @param other LuaLogisticCell        
+--- @return boolean
 function logistic_cell.is_neighbour_with(other)
     other = nil
+    return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function logistic_cell.help()
     return nil
 end

@@ -534,8 +534,10 @@ gui_element.object_name = nil
 --- Add a new child element to this GuiElement.
 --- 
 --- @param params LuaGuiElement_add_p   
+--- @return LuaGuiElement                The added GUI element.
 function gui_element.add(params)
     params = nil
+    return nil
 end
 
 
@@ -543,7 +545,8 @@ end
 --- this operation.
 --- 
 --- @see LuaGuiElement @
---- @return nil                         
+--- 
+--- @return nil
 function gui_element.clear()
     return nil
 end
@@ -553,21 +556,24 @@ end
 --- invalid after this operation.
 --- 
 --- @see LuaGuiElement @
---- @return nil                         
+--- 
+--- @return nil
 function gui_element.destroy()
     return nil
 end
 
 
 --- The mod that owns this Gui element or `nil` if it's owned by the scenario script.
---- @return nil                         
+--- 
+--- @return string
 function gui_element.get_mod()
     return nil
 end
 
 
 --- Gets the index that this element has in its parent element.
---- @return nil                         
+--- 
+--- @return uint
 function gui_element.get_index_in_parent()
     return nil
 end
@@ -584,7 +590,8 @@ end
 
 
 --- Removes the items in this dropdown or listbox.
---- @return nil                         
+--- 
+--- @return nil
 function gui_element.clear_items()
     return nil
 end
@@ -593,8 +600,10 @@ end
 --- Gets the item at the given index from this dropdown or listbox.
 --- 
 --- @param index uint                   
+--- @return LocalisedString
 function gui_element.get_item(index)
     index = nil
+    return nil
 end
 
 
@@ -611,6 +620,7 @@ end
 --- Inserts a string at the end or at the given index of this dropdown or listbox.
 --- 
 --- @overload fun(string: LocalisedString)
+--- 
 --- @param string LocalisedString       
 --- @param index uint | nil              (Optional) 
 function gui_element.add_item(string, index)
@@ -628,14 +638,16 @@ end
 
 
 --- Gets this sliders minimum value.
---- @return nil                         
+--- 
+--- @return double
 function gui_element.get_slider_minimum()
     return nil
 end
 
 
 --- Gets this sliders maximum value.
---- @return nil                         
+--- 
+--- @return double
 function gui_element.get_slider_maximum()
     return nil
 end
@@ -652,21 +664,24 @@ end
 
 
 --- Gets the minimum distance this slider can move.
---- @return nil                         
+--- 
+--- @return double
 function gui_element.get_slider_value_step()
     return nil
 end
 
 
 --- Returns whether this slider only allows being moved to discrete positions.
---- @return nil                         
+--- 
+--- @return boolean
 function gui_element.get_slider_discrete_slider()
     return nil
 end
 
 
 --- Returns whether this slider only allows discrete values.
---- @return nil                         
+--- 
+--- @return boolean
 function gui_element.get_slider_discrete_values()
     return nil
 end
@@ -697,35 +712,40 @@ end
 
 
 --- Focuses this GUI element if possible.
---- @return nil                         
+--- 
+--- @return nil
 function gui_element.focus()
     return nil
 end
 
 
 --- Scrolls this scroll bar to the top.
---- @return nil                         
+--- 
+--- @return nil
 function gui_element.scroll_to_top()
     return nil
 end
 
 
 --- Scrolls this scroll bar to the bottom.
---- @return nil                         
+--- 
+--- @return nil
 function gui_element.scroll_to_bottom()
     return nil
 end
 
 
 --- Scrolls this scroll bar to the left.
---- @return nil                         
+--- 
+--- @return nil
 function gui_element.scroll_to_left()
     return nil
 end
 
 
 --- Scrolls this scroll bar to the right.
---- @return nil                         
+--- 
+--- @return nil
 function gui_element.scroll_to_right()
     return nil
 end
@@ -734,6 +754,7 @@ end
 --- Scrolls this scroll bar such that the specified GUI element is visible to the player.
 --- 
 --- @overload fun(element: LuaGuiElement)
+--- 
 --- @param element LuaGuiElement        
 --- @param scroll_mode string | nil      (Optional) 
 function gui_element.scroll_to_element(element, scroll_mode)
@@ -743,7 +764,8 @@ end
 
 
 --- Selects all the text in this textbox.
---- @return nil                         
+--- 
+--- @return nil
 function gui_element.select_all()
     return nil
 end
@@ -780,7 +802,13 @@ end
 --- Forces this frame to re-auto-center. Only works on frames stored directly in LuaGui::screen.
 --- 
 --- @see LuaGui#screen @
---- @return nil                         
+--- 
+--- May raise the following events:
+---  - on_gui_location_changed:
+---    @see on_gui_location_changed@
+---    Raised at future_tick.
+--- 
+--- @return nil
 function gui_element.force_auto_center()
     return nil
 end
@@ -789,6 +817,7 @@ end
 --- Scrolls the scroll bar such that the specified listbox item is visible to the player.
 --- 
 --- @overload fun(index: int)
+--- 
 --- @param index int                    
 --- @param scroll_mode string | nil      (Optional) 
 function gui_element.scroll_to_item(index, scroll_mode)
@@ -798,14 +827,16 @@ end
 
 
 --- Moves this GUI element to the "front" so it will draw over other elements.
---- @return nil                         
+--- 
+--- @return nil
 function gui_element.bring_to_front()
     return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function gui_element.help()
     return nil
 end

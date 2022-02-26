@@ -101,28 +101,32 @@ end
 --- considered to be script-driven.
 --- 
 --- @see LuaUnitGroup#is_script_driven @
---- @return nil                         
+--- 
+--- @return nil
 function unit_group.set_autonomous()
     return nil
 end
 
 
 --- Make the group start moving even if some of its members haven't yet arrived.
---- @return nil                         
+--- 
+--- @return nil
 function unit_group.start_moving()
     return nil
 end
 
 
 --- Dissolve this group. Its members won't be destroyed, they will be merely unlinked from this group.
---- @return nil                         
+--- 
+--- @return nil
 function unit_group.destroy()
     return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function unit_group.help()
     return nil
 end

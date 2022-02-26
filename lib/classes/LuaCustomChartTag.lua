@@ -56,14 +56,16 @@ custom_chart_tag.object_name = nil
 
 
 --- Destroys this tag.
---- @return nil                         
+--- 
+--- @return nil
 function custom_chart_tag.destroy()
     return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function custom_chart_tag.help()
     return nil
 end

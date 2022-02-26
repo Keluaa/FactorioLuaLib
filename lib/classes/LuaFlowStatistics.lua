@@ -50,8 +50,10 @@ flow_statistics.object_name = nil
 --- Gets the total input count for a given prototype.
 --- 
 --- @param name string                  
+--- @return uint64 | double
 function flow_statistics.get_input_count(name)
     name = nil
+    return nil
 end
 
 
@@ -68,8 +70,10 @@ end
 --- Gets the total output count for a given prototype.
 --- 
 --- @param name string                  
+--- @return uint64 | double
 function flow_statistics.get_output_count(name)
     name = nil
+    return nil
 end
 
 
@@ -92,8 +96,10 @@ end
 --- Gets the flow count value for the given time frame.
 --- 
 --- @param params LuaFlowStatistics_get_flow_count_p
+--- @return double
 function flow_statistics.get_flow_count(params)
     params = nil
+    return nil
 end
 
 
@@ -108,14 +114,16 @@ end
 
 
 --- Reset all the statistics data to 0.
---- @return nil                         
+--- 
+--- @return nil
 function flow_statistics.clear()
     return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function flow_statistics.help()
     return nil
 end

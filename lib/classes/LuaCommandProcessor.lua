@@ -38,7 +38,9 @@ end
 --- Remove a custom console command.
 --- 
 --- @param name string                  
+--- @return boolean                      Whether the command was successfully removed. Returns `false` if the command didn't exist.
 function command_processor.remove_command(name)
     name = nil
+    return nil
 end
 

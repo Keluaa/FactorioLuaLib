@@ -211,6 +211,7 @@ player.object_name = nil
 --- Setup the screen to be shown when the game is finished.
 --- 
 --- @overload fun(message: LocalisedString)
+--- 
 --- @param message LocalisedString      
 --- @param file string | nil             (Optional) 
 function player.set_ending_screen_data(message, file)
@@ -222,6 +223,7 @@ end
 --- Print text to the chat console.
 --- 
 --- @overload fun(message: LocalisedString)
+--- 
 --- @param message LocalisedString      
 --- @param color Color | nil             (Optional) 
 function player.print(message, color)
@@ -231,14 +233,16 @@ end
 
 
 --- Clear the chat console.
---- @return nil                         
+--- 
+--- @return nil
 function player.clear_console()
     return nil
 end
 
 
 --- Get the current goal description, as a localised string.
---- @return nil                         
+--- 
+--- @return LocalisedString
 function player.get_goal_description()
     return nil
 end
@@ -248,6 +252,7 @@ end
 --- 
 --- @overload fun()
 --- @overload fun(text: LocalisedString)
+--- 
 --- @param text LocalisedString | nil    (Optional) 
 --- @param only_update boolean | nil     (Optional) 
 function player.set_goal_description(text, only_update)
@@ -279,34 +284,40 @@ end
 --- Start/end wire dragging at the specified location, wire type is based on the cursor contents
 --- 
 --- @param params LuaPlayer_drag_wire_p 
+--- @return boolean                      `true` if the action did something
 function player.drag_wire(params)
     params = nil
+    return nil
 end
 
 
 --- Disable recipe groups.
---- @return nil                         
+--- 
+--- @return nil
 function player.disable_recipe_groups()
     return nil
 end
 
 
 --- Enable recipe groups.
---- @return nil                         
+--- 
+--- @return nil
 function player.enable_recipe_groups()
     return nil
 end
 
 
 --- Disable recipe subgroups.
---- @return nil                         
+--- 
+--- @return nil
 function player.disable_recipe_subgroups()
     return nil
 end
 
 
 --- Enable recipe subgroups.
---- @return nil                         
+--- 
+--- @return nil
 function player.enable_recipe_subgroups()
     return nil
 end
@@ -315,6 +326,7 @@ end
 --- Print entity statistics to the player's console.
 --- 
 --- @overload fun()
+--- 
 --- @param entities string[] | nil       (Optional) 
 function player.print_entity_statistics(entities)
     entities = {}
@@ -322,28 +334,32 @@ end
 
 
 --- Print construction robot job counts to the players console.
---- @return nil                         
+--- 
+--- @return nil
 function player.print_robot_jobs()
     return nil
 end
 
 
 --- Print LuaObject counts per mod.
---- @return nil                         
+--- 
+--- @return nil
 function player.print_lua_object_statistics()
     return nil
 end
 
 
 --- Logs a dictionary of chunks -> active entities for the surface this player is on.
---- @return nil                         
+--- 
+--- @return nil
 function player.log_active_entity_chunk_counts()
     return nil
 end
 
 
 --- Logs a dictionary of active entities -> count for the surface this player is on.
---- @return nil                         
+--- 
+--- @return nil
 function player.log_active_entity_counts()
     return nil
 end
@@ -359,7 +375,8 @@ end
 
 
 --- Invokes the "clear cursor" action on the player as if the user pressed it.
---- @return nil                         
+--- 
+--- @return boolean                      Whether the cursor is now empty.
 function player.clear_cursor()
     return nil
 end
@@ -367,10 +384,13 @@ end
 
 --- Creates and attaches a character entity to this player.
 --- 
---- @overload fun()
+--- @overload fun(): boolean
+--- 
 --- @param character string | nil        (Optional) 
+--- @return boolean                      Whether the character was created.
 function player.create_character(character)
     character = nil
+    return nil
 end
 
 
@@ -425,64 +445,86 @@ end
 --- Get all alerts matching the given filters, or all alerts if no filters are given.
 --- 
 --- @param params LuaPlayer_get_alerts_p
+--- @return table<uint, table<defines_alert_type, Alert[]>> A mapping of surface index to an array of arrays of [alerts](Alert) indexed by the [alert type](defines.alert_type).
 function player.get_alerts(params)
     params = nil
+    return nil
 end
 
 
 --- Mutes alerts for the given alert category.
 --- 
 --- @param alert_type defines_alert_type
+--- @return boolean                      Whether the alert type was muted (false if it was already muted).
 function player.mute_alert(alert_type)
     alert_type = nil
+    return nil
 end
 
 
 --- Unmutes alerts for the given alert category.
 --- 
 --- @param alert_type defines_alert_type
+--- @return boolean                      Whether the alert type was unmuted (false if it was wasn't muted).
 function player.unmute_alert(alert_type)
     alert_type = nil
+    return nil
 end
 
 
 --- If the given alert type is currently muted.
 --- 
 --- @param alert_type defines_alert_type
+--- @return boolean
 function player.is_alert_muted(alert_type)
     alert_type = nil
+    return nil
 end
 
 
 --- Enables alerts for the given alert category.
 --- 
 --- @param alert_type defines_alert_type
+--- @return boolean                      Whether the alert type was enabled (false if it was already enabled).
 function player.enable_alert(alert_type)
     alert_type = nil
+    return nil
 end
 
 
 --- Disables alerts for the given alert category.
 --- 
 --- @param alert_type defines_alert_type
+--- @return boolean                      Whether the alert type was disabled (false if it was already disabled).
 function player.disable_alert(alert_type)
     alert_type = nil
+    return nil
 end
 
 
 --- If the given alert type is currently enabled.
 --- 
 --- @param alert_type defines_alert_type
+--- @return boolean
 function player.is_alert_enabled(alert_type)
     alert_type = nil
+    return nil
 end
 
 
 --- Invokes the "smart pipette" action on the player as if the user pressed it.
 --- 
+--- May raise the following events:
+---  - on_player_pipette:
+---    @see on_player_pipette@
+---    Raised instantly, conditionally.
+---    Raised if the entity was successfully pipetted.
+--- 
 --- @param entity string | LuaEntity | LuaEntityPrototype
+--- @return boolean                      Whether the smart pipette found something to place.
 function player.pipette_entity(entity)
     entity = nil
+    return nil
 end
 
 
@@ -494,8 +536,10 @@ end
 --- Checks if this player can build the give entity at the given location on the surface the player is on.
 --- 
 --- @param params LuaPlayer_can_place_entity_p
+--- @return boolean
 function player.can_place_entity(params)
     params = nil
+    return nil
 end
 
 
@@ -508,9 +552,21 @@ end
 
 --- Checks if this player can build what ever is in the cursor on the surface the player is on.
 --- 
+--- May raise the following events:
+---  - on_pre_build:
+---    @see on_pre_build@
+---    Raised instantly, conditionally.
+---    Raised if the cursor was successfully built.
+---  - on_built_entity:
+---    @see on_built_entity@
+---    Raised instantly, conditionally.
+---    Raised if the cursor was successfully built.
+--- 
 --- @param params LuaPlayer_can_build_from_cursor_p
+--- @return boolean
 function player.can_build_from_cursor(params)
     params = nil
+    return nil
 end
 
 
@@ -552,9 +608,10 @@ end
 
 
 --- The characters associated with this player.
---- @return nil                         
+--- 
+--- @return LuaEntity[]
 function player.get_associated_characters()
-    return nil
+    return {}
 end
 
 
@@ -597,8 +654,10 @@ end
 --- Gets the quick bar filter for the given slot or `nil`.
 --- 
 --- @param index uint                   
+--- @return LuaItemPrototype
 function player.get_quick_bar_slot(index)
     index = nil
+    return nil
 end
 
 
@@ -615,8 +674,10 @@ end
 --- Gets which quick bar page is being used for the given screen page or `nil` if not known.
 --- 
 --- @param index uint                   
+--- @return uint8
 function player.get_active_quick_bar_page(index)
     index = nil
+    return nil
 end
 
 
@@ -639,7 +700,8 @@ end
 
 
 --- Exit the current cutscene. Errors if not in a cutscene.
---- @return nil                         
+--- 
+--- @return nil
 function player.exit_cutscene()
     return nil
 end
@@ -649,6 +711,7 @@ end
 --- set the position (and scale). Render mode change requests are processed before rendering of the next frame.
 --- 
 --- @overload fun(position: MapPosition)
+--- 
 --- @param position MapPosition         
 --- @param scale double | nil            (Optional) 
 function player.open_map(position, scale)
@@ -662,6 +725,7 @@ end
 --- frame.
 --- 
 --- @overload fun(position: MapPosition)
+--- 
 --- @param position MapPosition         
 --- @param scale double | nil            (Optional) 
 function player.zoom_to_world(position, scale)
@@ -672,7 +736,8 @@ end
 
 --- Queues request to switch to the normal game view from the map or zoom to world view. Render mode change requests
 --- are processed before rendering of the next frame.
---- @return nil                         
+--- 
+--- @return nil
 function player.close_map()
     return nil
 end
@@ -681,16 +746,20 @@ end
 --- Is a custom Lua shortcut currently toggled?
 --- 
 --- @param prototype_name string        
+--- @return boolean
 function player.is_shortcut_toggled(prototype_name)
     prototype_name = nil
+    return nil
 end
 
 
 --- Is a custom Lua shortcut currently available?
 --- 
 --- @param prototype_name string        
+--- @return boolean
 function player.is_shortcut_available(prototype_name)
     prototype_name = nil
+    return nil
 end
 
 
@@ -730,7 +799,18 @@ end
 
 --- Toggles this player into or out of the map editor. Does nothing if this player isn't an admin or if the player
 --- doesn't have permission to use the map editor.
---- @return nil                         
+--- 
+--- May raise the following events:
+---  - on_pre_player_toggled_map_editor:
+---    @see on_pre_player_toggled_map_editor@
+---    Raised instantly, conditionally.
+---    Raised if the map editor was successfully toggled.
+---  - on_player_toggled_map_editor:
+---    @see on_player_toggled_map_editor@
+---    Raised instantly, conditionally.
+---    Raised if the map editor was successfully toggled.
+--- 
+--- @return nil
 function player.toggle_map_editor()
     return nil
 end
@@ -741,9 +821,17 @@ end
 --- 
 --- @see on_string_translated @
 --- 
+--- May raise the following events:
+---  - on_string_translated:
+---    @see on_string_translated@
+---    Raised at future_tick, conditionally.
+---    Raised if the request was successfully sent.
+--- 
 --- @param localised_string LocalisedString
+--- @return boolean                      Whether the request was sent or not.
 function player.request_translation(localised_string)
     localised_string = nil
+    return nil
 end
 
 
@@ -751,8 +839,10 @@ end
 --- or is empty.
 --- 
 --- @param index uint                   
+--- @return InfinityInventoryFilter
 function player.get_infinity_inventory_filter(index)
     index = nil
+    return nil
 end
 
 
@@ -767,7 +857,8 @@ end
 
 
 --- Clears all recipe notifications for this player.
---- @return nil                         
+--- 
+--- @return nil
 function player.clear_recipe_notifications()
     return nil
 end
@@ -791,7 +882,8 @@ end
 
 --- Gets a copy of the currently selected blueprint in the clipboard queue into the player's cursor, as if the player
 --- activated Paste.
---- @return nil                         
+--- 
+--- @return nil
 function player.activate_paste()
     return nil
 end
@@ -809,14 +901,16 @@ end
 
 
 --- Clears the players selection tool selection position.
---- @return nil                         
+--- 
+--- @return nil
 function player.clear_selection()
     return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function player.help()
     return nil
 end

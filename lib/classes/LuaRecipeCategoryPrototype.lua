@@ -40,7 +40,8 @@ recipe_category_prototype.object_name = nil
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function recipe_category_prototype.help()
     return nil
 end

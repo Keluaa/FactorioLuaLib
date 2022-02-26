@@ -384,22 +384,28 @@ item_prototype.object_name = nil
 --- Does this prototype have a flag enabled?
 --- 
 --- @param flag string                  
+--- @return boolean
 function item_prototype.has_flag(flag)
     flag = nil
+    return nil
 end
 
 
 --- Type of this ammo prototype or `nil` if this is not an ammo prototype.
 --- 
---- @overload fun()
+--- @overload fun(): AmmoType
+--- 
 --- @param ammo_source_type string | nil (Optional) 
+--- @return AmmoType
 function item_prototype.get_ammo_type(ammo_source_type)
     ammo_source_type = nil
+    return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function item_prototype.help()
     return nil
 end

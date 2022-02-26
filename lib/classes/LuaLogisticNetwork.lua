@@ -128,20 +128,24 @@ logistic_network.object_name = nil
 
 --- Count given or all items in the network or given members.
 --- 
---- @overload fun()
---- @overload fun(item: string)
+--- @overload fun(): int
+--- @overload fun(item: string): int
+--- 
 --- @param item string | nil             (Optional) 
 --- @param member string | nil           (Optional) 
+--- @return int
 function logistic_network.get_item_count(item, member)
     item = nil
     member = nil
+    return nil
 end
 
 
 --- Get item counts for the entire network, similar to how LuaInventory::get_contents does.
 --- 
 --- @see LuaInventory#get_contents @
---- @return nil                         
+--- 
+--- @return table<string, uint>          A mapping of item prototype names to the number available in the network.
 function logistic_network.get_contents()
     return nil
 end
@@ -149,31 +153,39 @@ end
 
 --- Remove items from the logistic network. This will actually remove the items from some logistic chests.
 --- 
---- @overload fun(item: ItemStackIdentification)
+--- @overload fun(item: ItemStackIdentification): uint
+--- 
 --- @param item ItemStackIdentification 
 --- @param members string | nil          (Optional) 
+--- @return uint                         Number of items removed.
 function logistic_network.remove_item(item, members)
     item = nil
     members = nil
+    return nil
 end
 
 
 --- Insert items into the logistic network. This will actually insert the items into some logistic chests.
 --- 
---- @overload fun(item: ItemStackIdentification)
+--- @overload fun(item: ItemStackIdentification): uint
+--- 
 --- @param item ItemStackIdentification 
 --- @param members string | nil          (Optional) 
+--- @return uint                         Number of items actually inserted.
 function logistic_network.insert(item, members)
     item = nil
     members = nil
+    return nil
 end
 
 
 --- Find logistic cell closest to a given position.
 --- 
 --- @param position MapPosition         
+--- @return LuaLogisticCell              `nil` if no cell was found.
 function logistic_network.find_cell_closest_to(position)
     position = nil
+    return nil
 end
 
 
@@ -186,8 +198,10 @@ end
 --- Find the 'best' logistic point with this item ID and from the given position or from given chest type.
 --- 
 --- @param params LuaLogisticNetwork_select_pickup_point_p
+--- @return LuaLogisticPoint             `nil` if no point was found.
 function logistic_network.select_pickup_point(params)
     params = nil
+    return nil
 end
 
 
@@ -198,13 +212,16 @@ end
 --- Find a logistic point to drop the specific item stack.
 --- 
 --- @param params LuaLogisticNetwork_select_drop_point_p
+--- @return LuaLogisticPoint             `nil` if no point was found.
 function logistic_network.select_drop_point(params)
     params = nil
+    return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function logistic_network.help()
     return nil
 end

@@ -28,23 +28,29 @@ permission_groups.object_name = nil
 
 --- Creates a new permission group.
 --- 
---- @overload fun()
+--- @overload fun(): LuaPermissionGroup
+--- 
 --- @param name string | nil             (Optional) 
+--- @return LuaPermissionGroup           `nil` if the calling player doesn't have permission to make groups.
 function permission_groups.create_group(name)
     name = nil
+    return nil
 end
 
 
 --- Gets the permission group with the given name or group ID.
 --- 
 --- @param group string | uint          
+--- @return LuaPermissionGroup           `nil` if there is no matching group.
 function permission_groups.get_group(group)
     group = nil
+    return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function permission_groups.help()
     return nil
 end

@@ -140,8 +140,10 @@ surface.object_name = nil
 --- Get the pollution for a given position.
 --- 
 --- @param position MapPosition         
+--- @return double
 function surface.get_pollution(position)
     position = nil
+    return nil
 end
 
 
@@ -157,8 +159,10 @@ end
 --- Check for collisions with terrain or other entities.
 --- 
 --- @param params LuaSurface_can_place_entity_p
+--- @return boolean
 function surface.can_place_entity(params)
     params = nil
+    return nil
 end
 
 
@@ -171,8 +175,10 @@ end
 --- If there exists an entity at the given location that can be fast-replaced with the given entity parameters.
 --- 
 --- @param params LuaSurface_can_fast_replace_p
+--- @return boolean
 function surface.can_fast_replace(params)
     params = nil
+    return nil
 end
 
 
@@ -180,19 +186,24 @@ end
 --- 
 --- @param entity string                
 --- @param position MapPosition         
+--- @return LuaEntity                    `nil` if no such entity is found.
 function surface.find_entity(entity, position)
     entity = nil
     position = nil
+    return nil
 end
 
 
 --- Find entities in a given area.
 --- If no area is given all entities on the surface are returned.
 --- 
---- @overload fun()
+--- @overload fun(): LuaEntity[]
+--- 
 --- @param area BoundingBox | nil        (Optional) 
+--- @return LuaEntity[]
 function surface.find_entities(area)
     area = nil
+    return {}
 end
 
 
@@ -222,8 +233,10 @@ end
 --- returns the entities colliding with that area.
 --- 
 --- @param params LuaSurface_find_entities_filtered_p
+--- @return LuaEntity[]
 function surface.find_entities_filtered(params)
     params = nil
+    return {}
 end
 
 
@@ -242,8 +255,10 @@ end
 --- given, only tiles within the radius of the position are included.
 --- 
 --- @param params LuaSurface_find_tiles_filtered_p
+--- @return LuaTile[]
 function surface.find_tiles_filtered(params)
     params = nil
+    return {}
 end
 
 
@@ -275,8 +290,10 @@ end
 --- @see LuaSurface#find_entities_filtered @
 --- 
 --- @param params LuaSurface_count_entities_filtered_p
+--- @return uint
 function surface.count_entities_filtered(params)
     params = nil
+    return nil
 end
 
 
@@ -298,72 +315,86 @@ end
 --- @see LuaSurface#find_tiles_filtered @
 --- 
 --- @param params LuaSurface_count_tiles_filtered_p
+--- @return uint
 function surface.count_tiles_filtered(params)
     params = nil
+    return nil
 end
 
 
 --- Find a non-colliding position within a given radius.
 --- 
---- @overload fun(name: string, center: MapPosition, radius: double, precision: double)
+--- @overload fun(name: string, center: MapPosition, radius: double, precision: double): MapPosition
+--- 
 --- @param name string                  
 --- @param center MapPosition           
 --- @param radius double                
 --- @param precision double             
 --- @param force_to_tile_center boolean | nil (Optional) 
+--- @return MapPosition                  The non-colliding position. May be `nil` if no suitable position was found.
 function surface.find_non_colliding_position(name, center, radius, precision, force_to_tile_center)
     name = nil
     center = nil
     radius = nil
     precision = nil
     force_to_tile_center = nil
+    return nil
 end
 
 
 --- Find a non-colliding position within a given rectangle.
 --- 
---- @overload fun(name: string, search_space: BoundingBox, precision: double)
+--- @overload fun(name: string, search_space: BoundingBox, precision: double): MapPosition
+--- 
 --- @param name string                  
 --- @param search_space BoundingBox     
 --- @param precision double             
 --- @param force_to_tile_center boolean | nil (Optional) 
+--- @return MapPosition                  The non-colliding position. May be `nil` if no suitable position was found.
 function surface.find_non_colliding_position_in_box(name, search_space, precision, force_to_tile_center)
     name = nil
     search_space = nil
     precision = nil
     force_to_tile_center = nil
+    return nil
 end
 
 
 --- Spill items on the ground centered at a given location.
 --- 
---- @overload fun(position: MapPosition, items: ItemStackIdentification)
---- @overload fun(position: MapPosition, items: ItemStackIdentification, enable_looted: boolean)
---- @overload fun(position: MapPosition, items: ItemStackIdentification, enable_looted: boolean, force: LuaForce | string)
+--- @overload fun(position: MapPosition, items: ItemStackIdentification): LuaEntity[]
+--- @overload fun(position: MapPosition, items: ItemStackIdentification, enable_looted: boolean): LuaEntity[]
+--- @overload fun(position: MapPosition, items: ItemStackIdentification, enable_looted: boolean, force: LuaForce | string): LuaEntity[]
+--- 
 --- @param position MapPosition         
 --- @param items ItemStackIdentification
 --- @param enable_looted boolean | nil   (Optional) 
 --- @param force LuaForce | string | nil (Optional) 
 --- @param allow_belts boolean | nil     (Optional) 
+--- @return LuaEntity[]                  The created item-on-ground entities.
 function surface.spill_item_stack(position, items, enable_looted, force, allow_belts)
     position = nil
     items = nil
     enable_looted = nil
     force = nil
     allow_belts = nil
+    return {}
 end
 
 
 --- Find enemy units (entities with type "unit") of a given force within an area.
 --- 
---- @overload fun(center: MapPosition, radius: double)
+--- @overload fun(center: MapPosition, radius: double): LuaEntity[]
+--- 
 --- @param center MapPosition           
 --- @param radius double                
 --- @param force LuaForce | string | nil (Optional) 
+--- @return LuaEntity[]
 function surface.find_enemy_units(center, radius, force)
     center = nil
     radius = nil
     force = nil
+    return {}
 end
 
 
@@ -375,8 +406,10 @@ end
 --- Find units (entities with type "unit") of a given force and force condition within a given area.
 --- 
 --- @param params LuaSurface_find_units_p
+--- @return LuaEntity[]
 function surface.find_units(params)
     params = nil
+    return {}
 end
 
 
@@ -388,8 +421,10 @@ end
 --- Find the enemy military target (military entity) closest to the given position.
 --- 
 --- @param params LuaSurface_find_nearest_enemy_p
+--- @return LuaEntity                    The nearest enemy military target or `nil` if no enemy could be found within the given area.
 function surface.find_nearest_enemy(params)
     params = nil
+    return nil
 end
 
 
@@ -401,8 +436,10 @@ end
 --- Find the enemy entity-with-owner closest to the given position.
 --- 
 --- @param params LuaSurface_find_nearest_enemy_entity_with_owner_p
+--- @return LuaEntity                    The nearest enemy entity-with-owner or `nil` if no enemy could be found within the given area.
 function surface.find_nearest_enemy_entity_with_owner(params)
     params = nil
+    return nil
 end
 
 
@@ -415,8 +452,10 @@ end
 --- Give a command to multiple units. This will automatically select suitable units for the task.
 --- 
 --- @param params LuaSurface_set_multi_command_p
+--- @return uint                         Number of units actually sent. May be less than `count` if not enough units were available.
 function surface.set_multi_command(params)
     params = nil
+    return nil
 end
 
 
@@ -480,9 +519,17 @@ end
 
 --- Create an entity on this surface.
 --- 
+--- May raise the following events:
+---  - script_raised_built:
+---    @see script_raised_built@
+---    Raised instantly, conditionally.
+---    Raised if the `raise_built` flag was set and the entity was successfully created.
+--- 
 --- @param params LuaSurface_create_entity_p
+--- @return LuaEntity                    The created entity or `nil` if the creation failed.
 function surface.create_entity(params)
     params = nil
+    return nil
 end
 
 
@@ -518,15 +565,23 @@ end
 
 --- Create a new unit group at a given position.
 --- 
+--- May raise the following events:
+---  - on_unit_group_created:
+---    @see on_unit_group_created@
+---    Raised instantly.
+--- 
 --- @param params LuaSurface_create_unit_group_p
+--- @return LuaUnitGroup
 function surface.create_unit_group(params)
     params = nil
+    return nil
 end
 
 
 --- Send a group to build a new base.
 --- 
 --- @overload fun(position: MapPosition, unit_count: uint)
+--- 
 --- @param position MapPosition         
 --- @param unit_count uint              
 --- @param force ForceIdentification | nil (Optional) 
@@ -541,9 +596,11 @@ end
 --- 
 --- @param x int                        
 --- @param y int                        
+--- @return LuaTile
 function surface.get_tile(x, y)
     x = nil
     y = nil
+    return nil
 end
 
 
@@ -556,10 +613,17 @@ end
 --- @see LuaTile#hidden_tile @
 --- @see LuaTilePrototype#mineable_properties @
 --- 
+--- May raise the following events:
+---  - script_raised_set_tiles:
+---    @see script_raised_set_tiles@
+---    Raised instantly, conditionally.
+---    Raised if the `raise_event` flag was set.
+--- 
 --- @overload fun(tiles: Tile[])
 --- @overload fun(tiles: Tile[], correct_tiles: boolean)
 --- @overload fun(tiles: Tile[], correct_tiles: boolean, remove_colliding_entities: boolean | string)
 --- @overload fun(tiles: Tile[], correct_tiles: boolean, remove_colliding_entities: boolean | string, remove_colliding_decoratives: boolean)
+--- 
 --- @param tiles Tile[]                 
 --- @param correct_tiles boolean | nil   (Optional) 
 --- @param remove_colliding_entities boolean | string | nil (Optional) 
@@ -585,7 +649,8 @@ end
 
 
 --- Get an iterator going over every chunk on this surface.
---- @return nil                         
+--- 
+--- @return LuaChunkIterator
 function surface.get_chunks()
     return nil
 end
@@ -594,8 +659,10 @@ end
 --- Is a given chunk generated?
 --- 
 --- @param position ChunkPosition       
+--- @return boolean
 function surface.is_chunk_generated(position)
     position = nil
+    return nil
 end
 
 
@@ -610,7 +677,8 @@ end
 
 
 --- Blocks and generates all chunks that have been requested using all available threads.
---- @return nil                         
+--- 
+--- @return nil
 function surface.force_generate_chunk_requests()
     return nil
 end
@@ -630,9 +698,11 @@ end
 --- 
 --- @param position MapPosition         
 --- @param force ForceIdentification    
+--- @return LuaLogisticNetwork           The found network or `nil` if no such network was found.
 function surface.find_logistic_network_by_position(position, force)
     position = nil
     force = nil
+    return nil
 end
 
 
@@ -640,9 +710,11 @@ end
 --- 
 --- @param position MapPosition         
 --- @param force ForceIdentification    
+--- @return LuaLogisticNetwork[]
 function surface.find_logistic_networks_by_construction_area(position, force)
     position = nil
     force = nil
+    return {}
 end
 
 
@@ -654,6 +726,12 @@ end
 --- @field item LuaItemStack | nil       (Optional)  The deconstruction item to use if any.
 
 --- Place a deconstruction request.
+--- 
+--- May raise the following events:
+---  - on_marked_for_deconstruction:
+---    @see on_marked_for_deconstruction@
+---    Raised instantly, conditionally.
+---    Raised for every entity that has been successfully marked for deconstruction.
 --- 
 --- @param params LuaSurface_deconstruct_area_p
 function surface.deconstruct_area(params)
@@ -670,6 +748,12 @@ end
 
 --- Cancel a deconstruction order.
 --- 
+--- May raise the following events:
+---  - on_cancelled_deconstruction:
+---    @see on_cancelled_deconstruction@
+---    Raised instantly, conditionally.
+---    Raised for every entity whose deconstruction has been successfully cancelled.
+--- 
 --- @param params LuaSurface_cancel_deconstruct_area_p
 function surface.cancel_deconstruct_area(params)
     params = nil
@@ -684,6 +768,12 @@ end
 --- @field item LuaItemStack             The upgrade item to use.
 
 --- Place an upgrade request.
+--- 
+--- May raise the following events:
+---  - on_marked_for_upgrade:
+---    @see on_marked_for_upgrade@
+---    Raised instantly, conditionally.
+---    Raised for every entity that has been successfully marked for upgrade.
 --- 
 --- @param params LuaSurface_upgrade_area_p
 function surface.upgrade_area(params)
@@ -700,6 +790,12 @@ end
 
 --- Cancel a upgrade order.
 --- 
+--- May raise the following events:
+---  - on_cancelled_upgrade:
+---    @see on_cancelled_upgrade@
+---    Raised instantly, conditionally.
+---    Raised for every entity whose upgrade has been successfully cancelled.
+--- 
 --- @param params LuaSurface_cancel_upgrade_area_p
 function surface.cancel_upgrade_area(params)
     params = nil
@@ -709,8 +805,10 @@ end
 --- The hidden tile name.
 --- 
 --- @param position TilePosition        
+--- @return string                       `nil` if there isn't one for the given position.
 function surface.get_hidden_tile(position)
     position = nil
+    return nil
 end
 
 
@@ -732,12 +830,22 @@ end
 --- 
 --- @param position TilePosition        
 --- @param tiles string[]               
+--- @return TilePosition[]               The resulting set of tiles.
 function surface.get_connected_tiles(position, tiles)
     position = nil
     tiles = {}
+    return {}
 end
 
 
+--- May raise the following events:
+---  - on_pre_chunk_deleted:
+---    @see on_pre_chunk_deleted@
+---    Raised at future_tick.
+---  - on_chunk_deleted:
+---    @see on_chunk_deleted@
+---    Raised at future_tick.
+--- 
 --- @param position ChunkPosition       
 function surface.delete_chunk(position)
     position = nil
@@ -748,6 +856,7 @@ end
 --- 
 --- @overload fun()
 --- @overload fun(entities: string | string[])
+--- 
 --- @param entities string | string[] | nil (Optional) 
 --- @param chunks ChunkPosition[] | nil  (Optional) 
 function surface.regenerate_entity(entities, chunks)
@@ -761,6 +870,7 @@ end
 --- 
 --- @overload fun()
 --- @overload fun(decoratives: string | string[])
+--- 
 --- @param decoratives string | string[] | nil (Optional) 
 --- @param chunks ChunkPosition[] | nil  (Optional) 
 function surface.regenerate_decorative(decoratives, chunks)
@@ -772,6 +882,7 @@ end
 --- Print text to the chat console of all players on this surface.
 --- 
 --- @overload fun(message: LocalisedString)
+--- 
 --- @param message LocalisedString      
 --- @param color Color | nil             (Optional) 
 function surface.print(message, color)
@@ -820,20 +931,26 @@ end
 --- only decoratives matching every given filter. If no area and no position are given, the entire surface is searched.
 --- 
 --- @param params LuaSurface_find_decoratives_filtered_p
+--- @return DecorativeResult[]
 function surface.find_decoratives_filtered(params)
     params = nil
+    return {}
 end
 
 
---- @overload fun()
+--- @overload fun(): LuaTrain[]
+--- 
 --- @param force ForceIdentification | nil (Optional) 
+--- @return LuaTrain[]
 function surface.get_trains(force)
     force = nil
+    return {}
 end
 
 
 --- Clears all pollution on this surface.
---- @return nil                         
+--- 
+--- @return nil
 function surface.clear_pollution()
     return nil
 end
@@ -854,14 +971,16 @@ end
 
 
 --- Gets the resource amount of all resources on this surface
---- @return nil                         
+--- 
+--- @return table<string, uint>
 function surface.get_resource_counts()
     return nil
 end
 
 
 --- Gets a random generated chunk position or 0,0 if no chunks have been generated on this surface.
---- @return nil                         
+--- 
+--- @return ChunkPosition
 function surface.get_random_chunk()
     return nil
 end
@@ -881,6 +1000,16 @@ end
 --- @field create_build_effect_smoke boolean | nil (Optional)  If true, the building effect smoke will be shown around the new entities.
 
 --- Clones the given area.
+--- 
+--- May raise the following events:
+---  - on_entity_cloned:
+---    @see on_entity_cloned@
+---    Raised instantly.
+---    Raised for every entity that was cloned.
+---  - on_area_cloned:
+---    @see on_area_cloned@
+---    Raised instantly.
+---    Raised after the individual `on_entity_cloned` events.
 --- 
 --- @param params LuaSurface_clone_area_p
 function surface.clone_area(params)
@@ -921,6 +1050,12 @@ end
 
 --- Clones the given entities.
 --- 
+--- May raise the following events:
+---  - on_entity_cloned:
+---    @see on_entity_cloned@
+---    Raised instantly.
+---    Raised for every entity that was cloned.
+--- 
 --- @param params LuaSurface_clone_entities_p
 function surface.clone_entities(params)
     params = nil
@@ -929,7 +1064,16 @@ end
 
 --- Clears this surface deleting all entities and chunks on it.
 --- 
+--- May raise the following events:
+---  - on_pre_surface_cleared:
+---    @see on_pre_surface_cleared@
+---    Raised at future_tick.
+---  - on_surface_cleared:
+---    @see on_surface_cleared@
+---    Raised at future_tick.
+--- 
 --- @overload fun()
+--- 
 --- @param ignore_characters boolean | nil (Optional) 
 function surface.clear(ignore_characters)
     ignore_characters = nil
@@ -957,27 +1101,40 @@ end
 --- @see on_script_path_request_finished @
 --- @see PathfinderWaypoint @
 --- 
+--- May raise the following events:
+---  - on_script_path_request_finished:
+---    @see on_script_path_request_finished@
+---    Raised at future_tick.
+--- 
 --- @param params LuaSurface_request_path_p
+--- @return uint                         A unique handle to identify this call when [on_script_path_request_finished](on_script_path_request_finished) fires.
 function surface.request_path(params)
     params = nil
+    return nil
 end
 
 
 --- Gets the script areas that match the given name or if no name is given all areas are returned.
 --- 
---- @overload fun()
+--- @overload fun(): ScriptArea[]
+--- 
 --- @param name string | nil             (Optional) 
+--- @return ScriptArea[]
 function surface.get_script_areas(name)
     name = nil
+    return {}
 end
 
 
 --- Gets the first script area by name or id.
 --- 
---- @overload fun()
+--- @overload fun(): ScriptArea
+--- 
 --- @param key string | uint | nil       (Optional) 
+--- @return ScriptArea
 function surface.get_script_area(key)
     key = nil
+    return nil
 end
 
 
@@ -994,34 +1151,44 @@ end
 --- Adds the given script area.
 --- 
 --- @param area ScriptArea              
+--- @return uint                         The id of the created area.
 function surface.add_script_area(area)
     area = nil
+    return nil
 end
 
 
 --- Removes the given script area.
 --- 
 --- @param id uint                      
+--- @return boolean                      If the area was actually removed. False when it didn't exist.
 function surface.remove_script_area(id)
     id = nil
+    return nil
 end
 
 
 --- Gets the script positions that match the given name or if no name is given all positions are returned.
 --- 
---- @overload fun()
+--- @overload fun(): ScriptPosition[]
+--- 
 --- @param name string | nil             (Optional) 
+--- @return ScriptPosition[]
 function surface.get_script_positions(name)
     name = nil
+    return {}
 end
 
 
 --- Gets the first script position by name or id.
 --- 
---- @overload fun()
+--- @overload fun(): ScriptPosition
+--- 
 --- @param key string | uint | nil       (Optional) 
+--- @return ScriptPosition
 function surface.get_script_position(key)
     key = nil
+    return nil
 end
 
 
@@ -1038,28 +1205,34 @@ end
 --- Adds the given script position.
 --- 
 --- @param area ScriptPosition          
+--- @return uint                         The id of the created position.
 function surface.add_script_position(area)
     area = nil
+    return nil
 end
 
 
 --- Removes the given script position.
 --- 
 --- @param id uint                      
+--- @return boolean                      If the position was actually removed. False when it didn't exist.
 function surface.remove_script_position(id)
     id = nil
+    return nil
 end
 
 
 --- Gets the map exchange string for the current map generation settings of this surface.
---- @return nil                         
+--- 
+--- @return string
 function surface.get_map_exchange_string()
     return nil
 end
 
 
 --- Gets the starting area radius of this surface.
---- @return nil                         
+--- 
+--- @return double
 function surface.get_starting_area_radius()
     return nil
 end
@@ -1069,9 +1242,11 @@ end
 --- 
 --- @param position MapPosition         
 --- @param entities LuaEntity[]         
+--- @return LuaEntity
 function surface.get_closest(position, entities)
     position = nil
     entities = {}
+    return nil
 end
 
 
@@ -1081,21 +1256,26 @@ end
 
 --- Gets train stops matching the given filters.
 --- 
---- @overload fun()
+--- @overload fun(): LuaEntity[]
+--- 
 --- @param params LuaSurface_get_train_stops_p | nil (Optional) 
+--- @return LuaEntity[]
 function surface.get_train_stops(params)
     params = nil
+    return {}
 end
 
 
 --- Gets the total amount of pollution on the surface by iterating over all of the chunks containing pollution.
---- @return nil                         
+--- 
+--- @return double
 function surface.get_total_pollution()
     return nil
 end
 
 
 --- @overload fun(prototype: EntityPrototypeIdentification, position: MapPosition, use_map_generation_bounding_box: boolean)
+--- 
 --- @param prototype EntityPrototypeIdentification
 --- @param position MapPosition         
 --- @param use_map_generation_bounding_box boolean
@@ -1118,9 +1298,11 @@ end
 
 --- @param property_names string[]      
 --- @param positions MapPosition[]      
+--- @return table<string, double[]>      Table of property value lists, keyed by property name
 function surface.calculate_tile_properties(property_names, positions)
     property_names = {}
     positions = {}
+    return nil
 end
 
 
@@ -1128,9 +1310,11 @@ end
 --- 
 --- @param position ChunkPosition       
 --- @param force LuaForce | string      
+--- @return LuaEntity[]
 function surface.get_entities_with_force(position, force)
     position = nil
     force = nil
+    return {}
 end
 
 
@@ -1143,7 +1327,8 @@ end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function surface.help()
     return nil
 end

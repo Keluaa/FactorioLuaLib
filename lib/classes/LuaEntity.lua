@@ -930,28 +930,32 @@ entity.object_name = nil
 
 
 --- Gets the entities output inventory if it has one.
---- @return nil                         
+--- 
+--- @return LuaInventory                 A reference to the entity's output inventory.
 function entity.get_output_inventory()
     return nil
 end
 
 
 --- Inventory for storing modules of this entity; `nil` if this entity has no module inventory.
---- @return nil                         
+--- 
+--- @return LuaInventory
 function entity.get_module_inventory()
     return nil
 end
 
 
 --- The fuel inventory for this entity or `nil` if this entity doesn't have a fuel inventory.
---- @return nil                         
+--- 
+--- @return LuaInventory
 function entity.get_fuel_inventory()
     return nil
 end
 
 
 --- The burnt result inventory for this entity or `nil` if this entity doesn't have a burnt result inventory.
---- @return nil                         
+--- 
+--- @return LuaInventory
 function entity.get_burnt_result_inventory()
     return nil
 end
@@ -959,22 +963,31 @@ end
 
 --- Damages the entity.
 --- 
---- @overload fun(damage: float, force: ForceIdentification)
---- @overload fun(damage: float, force: ForceIdentification, type: string)
+--- May raise the following events:
+---  - on_entity_damaged:
+---    @see on_entity_damaged@
+---    Raised instantly.
+--- 
+--- @overload fun(damage: float, force: ForceIdentification): float
+--- @overload fun(damage: float, force: ForceIdentification, type: string): float
+--- 
 --- @param damage float                 
 --- @param force ForceIdentification    
 --- @param type string | nil             (Optional) 
 --- @param dealer LuaEntity | nil        (Optional) 
+--- @return float                        the total damage actually applied after resistances.
 function entity.damage(damage, force, type, dealer)
     damage = nil
     force = nil
     type = nil
     dealer = nil
+    return nil
 end
 
 
 --- Checks if the entity can be destroyed
---- @return nil                         
+--- 
+--- @return boolean                      Whether the entity can be destroyed.
 function entity.can_be_destroyed()
     return nil
 end
@@ -986,10 +999,19 @@ end
 
 --- Destroys the entity.
 --- 
---- @overload fun()
+--- May raise the following events:
+---  - script_raised_destroy:
+---    @see script_raised_destroy@
+---    Raised instantly, conditionally.
+---    Raised if the `raise_destroy` flag was set and the entity was successfully destroyed.
+--- 
+--- @overload fun(): boolean
+--- 
 --- @param params LuaEntity_destroy_p | nil (Optional) 
+--- @return boolean                      Returns `false` if the entity was valid and destruction failed, `true` in all other cases.
 function entity.destroy(params)
     params = nil
+    return nil
 end
 
 
@@ -1010,7 +1032,8 @@ end
 
 
 --- Has this unit been assigned a command?
---- @return nil                         
+--- 
+--- @return boolean
 function entity.has_command()
     return nil
 end
@@ -1023,21 +1046,36 @@ end
 --- @see LuaEntity#destroy @
 --- @see on_entity_died @
 --- 
---- @overload fun()
---- @overload fun(force: ForceIdentification)
+--- May raise the following events:
+---  - on_entity_died:
+---    @see on_entity_died@
+---    Raised instantly, conditionally.
+---    Raised if the entity was successfully killed. If `force` is not specified, the event will blame the `"neutral"` force.
+---  - on_post_entity_died:
+---    @see on_post_entity_died@
+---    Raised instantly, conditionally.
+---    Raised if the entity was successfully killed.
+--- 
+--- @overload fun(): boolean
+--- @overload fun(force: ForceIdentification): boolean
+--- 
 --- @param force ForceIdentification | nil (Optional) 
 --- @param cause LuaEntity | nil         (Optional) 
+--- @return boolean                      Whether the entity was successfully killed.
 function entity.die(force, cause)
     force = nil
     cause = nil
+    return nil
 end
 
 
 --- Test whether this entity's prototype has a certain flag set.
 --- 
 --- @param flag string                  
+--- @return boolean                      `true` if this entity has the given flag set.
 function entity.has_flag(flag)
     flag = nil
+    return nil
 end
 
 
@@ -1046,8 +1084,10 @@ end
 --- @see LuaEntity#has_flag @
 --- 
 --- @param flag string                  
+--- @return boolean                      `true` if the entity has the given flag set.
 function entity.ghost_has_flag(flag)
     flag = nil
+    return nil
 end
 
 
@@ -1062,20 +1102,24 @@ end
 --- Remove an offer from a market.
 --- 
 --- @param offer uint                   
+--- @return boolean                      `true` if the offer was successfully removed; `false` when the given index was not valid.
 function entity.remove_market_item(offer)
     offer = nil
-end
-
-
---- Get all offers in a market as an array.
---- @return nil                         
-function entity.get_market_items()
     return nil
 end
 
 
+--- Get all offers in a market as an array.
+--- 
+--- @return Offer[]
+function entity.get_market_items()
+    return {}
+end
+
+
 --- Removes all offers from a market.
---- @return nil                         
+--- 
+--- @return nil
 function entity.clear_market_items()
     return nil
 end
@@ -1091,8 +1135,10 @@ end
 --- @see LuaEntity @
 --- 
 --- @param target LuaEntity | WireConnectionDefinition
+--- @return boolean                      Whether the connection was successfully formed.
 function entity.connect_neighbour(target)
     target = nil
+    return nil
 end
 
 
@@ -1110,6 +1156,7 @@ end
 --- @see defines.wire_type#red @
 --- 
 --- @overload fun()
+--- 
 --- @param target defines_wire_type | LuaEntity | WireConnectionDefinition | nil (Optional) 
 function entity.disconnect_neighbour(target)
     target = nil
@@ -1118,18 +1165,34 @@ end
 
 --- Sets the entity to be deconstructed by construction robots.
 --- 
---- @overload fun(force: ForceIdentification)
+--- May raise the following events:
+---  - on_marked_for_deconstruction:
+---    @see on_marked_for_deconstruction@
+---    Raised instantly, conditionally.
+---    Raised if the entity way successfully marked for deconstruction.
+--- 
+--- @overload fun(force: ForceIdentification): boolean
+--- 
 --- @param force ForceIdentification    
 --- @param player PlayerIdentification | nil (Optional) 
+--- @return boolean                      if the entity was marked for deconstruction.
 function entity.order_deconstruction(force, player)
     force = nil
     player = nil
+    return nil
 end
 
 
 --- Cancels deconstruction if it is scheduled, does nothing otherwise.
 --- 
+--- May raise the following events:
+---  - on_cancelled_deconstruction:
+---    @see on_cancelled_deconstruction@
+---    Raised instantly, conditionally.
+---    Raised if the entity's deconstruction was successfully cancelled.
+--- 
 --- @overload fun(force: ForceIdentification)
+--- 
 --- @param force ForceIdentification    
 --- @param player PlayerIdentification | nil (Optional) 
 function entity.cancel_deconstruction(force, player)
@@ -1139,7 +1202,8 @@ end
 
 
 --- Is this entity marked for deconstruction?
---- @return nil                         
+--- 
+--- @return boolean
 function entity.to_be_deconstructed()
     return nil
 end
@@ -1153,25 +1217,43 @@ end
 
 --- Sets the entity to be upgraded by construction robots.
 --- 
+--- May raise the following events:
+---  - on_marked_for_upgrade:
+---    @see on_marked_for_upgrade@
+---    Raised instantly, conditionally.
+---    Raised if the entity way successfully marked for upgrade.
+--- 
 --- @param params LuaEntity_order_upgrade_p
+--- @return boolean                      Whether the entity was marked for upgrade.
 function entity.order_upgrade(params)
     params = nil
+    return nil
 end
 
 
 --- Cancels upgrade if it is scheduled, does nothing otherwise.
 --- 
---- @overload fun(force: ForceIdentification)
+--- May raise the following events:
+---  - on_cancelled_upgrade:
+---    @see on_cancelled_upgrade@
+---    Raised instantly, conditionally.
+---    Raised if the entity way previously marked for upgrade.
+--- 
+--- @overload fun(force: ForceIdentification): boolean
+--- 
 --- @param force ForceIdentification    
 --- @param player PlayerIdentification | nil (Optional) 
+--- @return boolean                      Whether the cancel was successful.
 function entity.cancel_upgrade(force, player)
     force = nil
     player = nil
+    return nil
 end
 
 
 --- Is this entity marked for upgrade?
---- @return nil                         
+--- 
+--- @return boolean
 function entity.to_be_upgraded()
     return nil
 end
@@ -1180,8 +1262,10 @@ end
 --- Get a logistic requester slot.
 --- 
 --- @param slot uint                    
+--- @return SimpleItemStack              Contents of the specified slot; `nil` if the given slot contains no request.
 function entity.get_request_slot(slot)
     slot = nil
+    return nil
 end
 
 
@@ -1189,9 +1273,11 @@ end
 --- 
 --- @param request ItemStackIdentification
 --- @param slot uint                    
+--- @return boolean                      Whether the slot was set.
 function entity.set_request_slot(request, slot)
     request = nil
     slot = nil
+    return nil
 end
 
 
@@ -1205,37 +1291,39 @@ end
 
 --- Returns whether a craft is currently in process. It does not indicate whether progress is currently being made, but
 --- whether any crafting action has made progress in this machine.
---- @return nil                         
+--- 
+--- @return boolean
 function entity.is_crafting()
     return nil
 end
 
 
---- @return nil                         
+--- @return boolean                      `true` if this gate is currently opened.
 function entity.is_opened()
     return nil
 end
 
 
---- @return nil                         
+--- @return boolean                      `true` if this gate is currently opening.
 function entity.is_opening()
     return nil
 end
 
 
---- @return nil                         
+--- @return boolean                      `true` if this gate is currently closed.
 function entity.is_closed()
     return nil
 end
 
 
---- @return nil                         
+--- @return boolean                      `true` if this gate is currently closing
 function entity.is_closing()
     return nil
 end
 
 
 --- @overload fun(force: ForceIdentification)
+--- 
 --- @param force ForceIdentification    
 --- @param extra_time uint | nil         (Optional) 
 function entity.request_to_open(force, extra_time)
@@ -1253,19 +1341,28 @@ end
 --- Get a transport line of a belt or belt connectable entity.
 --- 
 --- @param index uint                   
+--- @return LuaTransportLine
 function entity.get_transport_line(index)
     index = nil
+    return nil
 end
 
 
 --- Get the maximum transport line index of a belt or belt connectable entity.
---- @return nil                         
+--- 
+--- @return uint
 function entity.get_max_transport_line_index()
     return nil
 end
 
 
---- @return nil                         
+--- May raise the following events:
+---  - on_rocket_launch_ordered:
+---    @see on_rocket_launch_ordered@
+---    Raised instantly, conditionally.
+---    Raised if the rocket launch was successfully initiated.
+--- 
+--- @return boolean                      `true` if the rocket was successfully launched. Return value of `false` means the silo is not ready for launch.
 function entity.launch_rocket()
     return nil
 end
@@ -1277,10 +1374,26 @@ end
 
 --- Revive a ghost. I.e. turn it from a ghost to a real entity or tile.
 --- 
---- @overload fun()
+--- May raise the following events:
+---  - script_raised_revive:
+---    @see script_raised_revive@
+---    Raised instantly, conditionally.
+---    Raised if this was an entity ghost and the `raise_revive` flag was set and the entity was successfully revived.
+---  - script_raised_set_tiles:
+---    @see script_raised_set_tiles@
+---    Raised instantly, conditionally.
+---    Raised if this was a tile ghost and the `raise_revive` flag was set and the tile was successfully revived.
+--- 
+--- @overload fun(): table<string, uint>, LuaEntity, LuaEntity
+--- 
 --- @param params LuaEntity_revive_p | nil (Optional) 
+--- @return table<string, uint>, LuaEntity, LuaEntity
+---  - [0]: Any items the new real entity collided with or `nil` if the ghost could not be revived.
+---  - [1]: The revived entity if an entity ghost was successfully revived.
+---  - [2]: The item request proxy if it was requested with `return_item_request_proxy`.
 function entity.revive(params)
     params = nil
+    return nil, nil, nil
 end
 
 
@@ -1290,10 +1403,26 @@ end
 
 --- Revives a ghost silently.
 --- 
---- @overload fun()
+--- May raise the following events:
+---  - script_raised_revive:
+---    @see script_raised_revive@
+---    Raised instantly, conditionally.
+---    Raised if this was an entity ghost and the `raise_revive` flag was set and the entity was successfully revived.
+---  - script_raised_set_tiles:
+---    @see script_raised_set_tiles@
+---    Raised instantly, conditionally.
+---    Raised if this was a tile ghost and the `raise_revive` flag was set and the tile was successfully revived.
+--- 
+--- @overload fun(): table<string, uint>, LuaEntity, LuaEntity
+--- 
 --- @param params LuaEntity_silent_revive_p | nil (Optional) 
+--- @return table<string, uint>, LuaEntity, LuaEntity
+---  - [0]: Any items the new real entity collided with or `nil` if the ghost could not be revived.
+---  - [1]: The revived entity if an entity ghost was successfully revived.
+---  - [2]: The item request proxy if it was requested with `return_item_request_proxy`.
 function entity.silent_revive(params)
     params = nil
+    return nil, nil, nil
 end
 
 
@@ -1302,15 +1431,18 @@ end
 --- @field rail_connection_direction defines_rail_connection_direction 
 
 --- @param params LuaEntity_get_connected_rail_p
+--- @return LuaEntity                    Rail connected in the specified manner to this one, `nil` if unsuccessful.
 function entity.get_connected_rail(params)
     params = nil
+    return nil
 end
 
 
 --- Get the rails that this signal is connected to.
---- @return nil                         
+--- 
+--- @return LuaEntity[]
 function entity.get_connected_rails()
-    return nil
+    return {}
 end
 
 
@@ -1318,9 +1450,11 @@ end
 --- 
 --- @param direction defines_rail_direction
 --- @param in_else_out boolean          
+--- @return LuaEntity                    `nil` if the rail segment doesn't start/end with a signal nor a train stop.
 function entity.get_rail_segment_entity(direction, in_else_out)
     direction = nil
     in_else_out = nil
+    return nil
 end
 
 
@@ -1328,6 +1462,8 @@ end
 --- 
 --- @param direction defines_rail_direction
 --- @return LuaEntity, defines_rail_direction
+---  - [0]: The rail entity.
+---  - [1]: A rail direction pointing out of the rail segment from the end rail.
 function entity.get_rail_segment_end(direction)
     direction = nil
     return nil, nil
@@ -1335,24 +1471,28 @@ end
 
 
 --- Get the length of the rail segment this rail is in.
---- @return nil                         
+--- 
+--- @return double
 function entity.get_rail_segment_length()
     return nil
 end
 
 
 --- Get a rail from each rail segment that overlaps with this rail's rail segment.
---- @return nil                         
+--- 
+--- @return LuaEntity[]
 function entity.get_rail_segment_overlaps()
-    return nil
+    return {}
 end
 
 
 --- Get the filter for a slot in an inserter, loader, or logistic storage container.
 --- 
 --- @param slot_index uint              
+--- @return string                       Prototype name of the item being filtered. `nil` if the given slot has no filter.
 function entity.get_filter(slot_index)
     slot_index = nil
+    return nil
 end
 
 
@@ -1370,8 +1510,10 @@ end
 --- empty.
 --- 
 --- @param index uint                   
+--- @return InfinityInventoryFilter
 function entity.get_infinity_container_filter(index)
     index = nil
+    return nil
 end
 
 
@@ -1386,7 +1528,8 @@ end
 
 
 --- Gets the filter for this infinity pipe or `nil` if the filter is empty.
---- @return nil                         
+--- 
+--- @return InfinityPipeFilter
 function entity.get_infinity_pipe_filter()
     return nil
 end
@@ -1401,7 +1544,8 @@ end
 
 
 --- Gets the heat setting for this heat interface.
---- @return nil                         
+--- 
+--- @return HeatSetting
 function entity.get_heat_setting()
     return nil
 end
@@ -1416,50 +1560,62 @@ end
 
 
 --- Gets the control behavior of the entity (if any).
---- @return nil                         
+--- 
+--- @return LuaControlBehavior           The control behavior or `nil`.
 function entity.get_control_behavior()
     return nil
 end
 
 
 --- Gets (and or creates if needed) the control behavior of the entity.
---- @return nil                         
+--- 
+--- @return LuaControlBehavior           The control behavior or `nil`.
 function entity.get_or_create_control_behavior()
     return nil
 end
 
 
---- @overload fun(wire: defines_wire_type)
+--- @overload fun(wire: defines_wire_type): LuaCircuitNetwork
+--- 
 --- @param wire defines_wire_type       
 --- @param circuit_connector defines_circuit_connector_id | nil (Optional) 
+--- @return LuaCircuitNetwork            The circuit network or nil.
 function entity.get_circuit_network(wire, circuit_connector)
     wire = nil
     circuit_connector = nil
+    return nil
 end
 
 
 --- Read a single signal from the combined circuit networks.
 --- 
---- @overload fun(signal: SignalID)
+--- @overload fun(signal: SignalID): int
+--- 
 --- @param signal SignalID              
 --- @param circuit_connector defines_circuit_connector_id | nil (Optional) 
+--- @return int                          The current value of the signal.
 function entity.get_merged_signal(signal, circuit_connector)
     signal = nil
     circuit_connector = nil
+    return nil
 end
 
 
 --- The merged circuit network signals or `nil` if there are no signals.
 --- 
---- @overload fun()
+--- @overload fun(): Signal[]
+--- 
 --- @param circuit_connector defines_circuit_connector_id | nil (Optional) 
+--- @return Signal[]                     The sum of signals on both the red and green networks, or `nil` if it doesn't have a circuit connector.
 function entity.get_merged_signals(circuit_connector)
     circuit_connector = nil
+    return {}
 end
 
 
 --- Whether this entity supports a backer name.
---- @return nil                         
+--- 
+--- @return boolean
 function entity.supports_backer_name()
     return nil
 end
@@ -1467,22 +1623,28 @@ end
 
 --- Copies settings from the given entity onto this entity.
 --- 
---- @overload fun(entity_: LuaEntity)
+--- @overload fun(entity_: LuaEntity): table<string, uint>
+--- 
 --- @param entity_ LuaEntity            
 --- @param by_player PlayerIdentification | nil (Optional) 
+--- @return table<string, uint>          Any items removed from this entity as a result of copying the settings.
 function entity.copy_settings(entity_, by_player)
     entity_ = nil
     by_player = nil
+    return nil
 end
 
 
 --- Gets all the `LuaLogisticPoint`s that this entity owns. Optionally returns only the point specified by the index
 --- parameter.
 --- 
---- @overload fun()
+--- @overload fun(): LuaLogisticPoint | LuaLogisticPoint[]
+--- 
 --- @param index defines_logistic_member_index | nil (Optional) 
+--- @return LuaLogisticPoint | LuaLogisticPoint[]
 function entity.get_logistic_point(index)
     index = nil
+    return nil
 end
 
 
@@ -1490,39 +1652,47 @@ end
 --- 
 --- @param instrument uint              
 --- @param note uint                    
+--- @return boolean                      Whether the request is valid. The sound may or may not be played depending on polyphony settings.
 function entity.play_note(instrument, note)
     instrument = nil
     note = nil
+    return nil
 end
 
 
 --- Connects the rolling stock in the given direction.
 --- 
 --- @param direction defines_rail_direction
+--- @return boolean                      Whether any connection was made
 function entity.connect_rolling_stock(direction)
     direction = nil
+    return nil
 end
 
 
 --- Tries to disconnect this rolling stock in the given direction.
 --- 
 --- @param direction defines_rail_direction
+--- @return boolean                      If anything was disconnected
 function entity.disconnect_rolling_stock(direction)
     direction = nil
+    return nil
 end
 
 
 --- Reconnect loader, beacon, cliff and mining drill connections to entities that might have been teleported out or in
 --- by the script. The game doesn't do this automatically as we don't want to loose performance by checking this in
 --- normal games.
---- @return nil                         
+--- 
+--- @return nil
 function entity.update_connections()
     return nil
 end
 
 
 --- Current recipe being assembled by this machine or `nil` if no recipe is set.
---- @return nil                         
+--- 
+--- @return LuaRecipe
 function entity.get_recipe()
     return nil
 end
@@ -1531,8 +1701,10 @@ end
 --- Sets the current recipe in this assembly machine.
 --- 
 --- @param recipe string | LuaRecipe    
+--- @return table<string, uint>          Any items removed from this entity as a result of setting the recipe.
 function entity.set_recipe(recipe)
     recipe = nil
+    return nil
 end
 
 
@@ -1545,15 +1717,27 @@ end
 
 --- Rotates this entity as if the player rotated it.
 --- 
---- @overload fun()
+--- May raise the following events:
+---  - on_player_rotated_entity:
+---    @see on_player_rotated_entity@
+---    Raised instantly, conditionally.
+---    Raised if the `by_player` argument was given and the rotation was successful.
+--- 
+--- @overload fun(): boolean, table<string, uint>
+--- 
 --- @param params LuaEntity_rotate_p | nil (Optional) 
+--- @return boolean, table<string, uint>
+---  - [0]: Whether the rotation was successful.
+---  - [1]: Count of spilled items indexed by their prototype names if `spill_items` was `true`.
 function entity.rotate(params)
     params = nil
+    return nil, nil
 end
 
 
 --- Gets the driver of this vehicle if any.
---- @return nil                         
+--- 
+--- @return LuaEntity | LuaPlayer        `nil` if the vehicle contains no driver. To check if there's a passenger see [LuaEntity::get_passenger](LuaEntity::get_passenger).
 function entity.get_driver()
     return nil
 end
@@ -1568,7 +1752,8 @@ end
 
 
 --- Gets the passenger of this car or spidertron if any.
---- @return nil                         
+--- 
+--- @return LuaEntity | LuaPlayer        `nil` if the vehicle contains no passenger. To check if there's a driver see [LuaEntity::get_driver](LuaEntity::get_driver).
 function entity.get_passenger()
     return nil
 end
@@ -1583,21 +1768,24 @@ end
 
 
 --- Returns true if this entity is connected to an electric network.
---- @return nil                         
+--- 
+--- @return boolean
 function entity.is_connected_to_electric_network()
     return nil
 end
 
 
 --- The trains scheduled to stop at this train stop.
---- @return nil                         
+--- 
+--- @return LuaTrain[]
 function entity.get_train_stop_trains()
-    return nil
+    return {}
 end
 
 
 --- The train currently stopped at this train stop or `nil` if none.
---- @return nil                         
+--- 
+--- @return LuaTrain
 function entity.get_stopped_train()
     return nil
 end
@@ -1611,23 +1799,35 @@ end
 
 --- Clones this entity.
 --- 
+--- May raise the following events:
+---  - on_entity_cloned:
+---    @see on_entity_cloned@
+---    Raised instantly, conditionally.
+---    Raised if the entity was successfully cloned.
+--- 
 --- @param params LuaEntity_clone_p     
+--- @return LuaEntity                    The cloned entity or `nil` if this entity can't be cloned/can't be cloned to the given location.
 function entity.clone(params)
     params = nil
+    return nil
 end
 
 
 --- Get the amount of all or some fluid in this entity.
 --- 
---- @overload fun()
+--- @overload fun(): double
+--- 
 --- @param fluid string | nil            (Optional) 
+--- @return double
 function entity.get_fluid_count(fluid)
     fluid = nil
+    return nil
 end
 
 
 --- Get amounts of all fluids in this entity.
---- @return nil                         
+--- 
+--- @return table<string, double>        The amounts, indexed by fluid names.
 function entity.get_fluid_contents()
     return nil
 end
@@ -1643,28 +1843,34 @@ end
 --- Remove fluid from this entity.
 --- 
 --- @param params LuaEntity_remove_fluid_p
+--- @return double                       Amount of fluid actually removed.
 function entity.remove_fluid(params)
     params = nil
+    return nil
 end
 
 
 --- Insert fluid into this entity. Fluidbox is chosen automatically.
 --- 
 --- @param fluid Fluid                  
+--- @return double                       Amount of fluid actually inserted.
 function entity.insert_fluid(fluid)
     fluid = nil
+    return nil
 end
 
 
 --- Remove all fluids from this entity.
---- @return nil                         
+--- 
+--- @return nil
 function entity.clear_fluid_inside()
     return nil
 end
 
 
 --- Get the source of this beam.
---- @return nil                         
+--- 
+--- @return BeamTarget
 function entity.get_beam_source()
     return nil
 end
@@ -1679,7 +1885,8 @@ end
 
 
 --- Get the target of this beam.
---- @return nil                         
+--- 
+--- @return BeamTarget
 function entity.get_beam_target()
     return nil
 end
@@ -1694,14 +1901,16 @@ end
 
 
 --- The radius of this entity.
---- @return nil                         
+--- 
+--- @return double
 function entity.get_radius()
     return nil
 end
 
 
 --- The health ratio of this entity between 1 and 0 (for full health and no health respectively).
---- @return nil                         
+--- 
+--- @return float                        `nil` if this entity doesn't have health.
 function entity.get_health_ratio()
     return nil
 end
@@ -1712,21 +1921,24 @@ end
 --- position=entity.position}
 --- 
 --- @see LuaSurface#play_sound @
---- @return nil                         
+--- 
+--- @return nil
 function entity.create_build_effect_smoke()
     return nil
 end
 
 
 --- Release the unit from the spawner which spawned it. This allows the spawner to continue spawning additional units.
---- @return nil                         
+--- 
+--- @return nil
 function entity.release_from_spawner()
     return nil
 end
 
 
 --- Toggle this entity's equipment movement bonus. Does nothing if the entity does not have an equipment grid.
---- @return nil                         
+--- 
+--- @return nil
 function entity.toggle_equipment_movement_bonus()
     return nil
 end
@@ -1736,43 +1948,55 @@ end
 --- 
 --- @param target LuaEntity             
 --- @param position MapPosition         
+--- @return boolean
 function entity.can_shoot(target, position)
     target = nil
     position = nil
+    return nil
 end
 
 
 --- Only works if the entity is a speech-bubble, with an "effect" defined in its wrapper_flow_style. Starts animating
 --- the opacity of the speech bubble towards zero, and destroys the entity when it hits zero.
---- @return nil                         
+--- 
+--- @return nil
 function entity.start_fading_out()
     return nil
 end
 
 
 --- Returns the new entity prototype.
---- @return nil                         
+--- 
+--- @return LuaEntityPrototype           `nil` if this entity is not marked for upgrade.
 function entity.get_upgrade_target()
     return nil
 end
 
 
 --- Returns the new entity direction after upgrading.
---- @return nil                         
+--- 
+--- @return defines_direction            `nil` if this entity is not marked for upgrade.
 function entity.get_upgrade_direction()
     return nil
 end
 
 
 --- Returns the amount of damage to be taken by this entity.
---- @return nil                         
+--- 
+--- @return float                        `nil` if this entity does not have health.
 function entity.get_damage_to_be_taken()
     return nil
 end
 
 
 --- Depletes and destroys this resource entity.
---- @return nil                         
+--- 
+--- May raise the following events:
+---  - on_resource_depleted:
+---    @see on_resource_depleted@
+---    Raised instantly.
+--- 
+--- @return nil
 function entity.deplete()
     return nil
 end
@@ -1786,16 +2010,26 @@ end
 
 --- Mines this entity.
 --- 
---- @overload fun()
+--- May raise the following events:
+---  - script_raised_destroy:
+---    @see script_raised_destroy@
+---    Raised instantly, conditionally.
+---    Raised if the `raise_destroyed` flag was set and the entity was successfully mined.
+--- 
+--- @overload fun(): boolean
+--- 
 --- @param params LuaEntity_mine_p | nil (Optional) 
+--- @return boolean                      Whether mining succeeded.
 function entity.mine(params)
     params = nil
+    return nil
 end
 
 
 --- Triggers spawn_decoration actions defined in the entity prototype or does nothing if entity is not "turret" or
 --- "unit-spawner".
---- @return nil                         
+--- 
+--- @return nil
 function entity.spawn_decorations()
     return nil
 end
@@ -1804,22 +2038,29 @@ end
 --- Can wires reach between these entities.
 --- 
 --- @param entity_ LuaEntity            
+--- @return boolean
 function entity.can_wires_reach(entity_)
     entity_ = nil
+    return nil
 end
 
 
 --- Gets rolling stock connected to the given end of this stock.
 --- 
 --- @param direction defines_rail_direction
+--- @return LuaEntity, defines_rail_direction
+---  - [0]: The rolling stock connected at the given end, `nil` if none is connected there.
+---  - [1]: The rail direction of the connected rolling stock if any.
 function entity.get_connected_rolling_stock(direction)
     direction = nil
+    return nil, nil
 end
 
 
 --- Is this entity or tile ghost or item request proxy registered for construction? If false, it means a construction
 --- robot has been dispatched to build the entity, or it is not an entity that can be constructed.
---- @return nil                         
+--- 
+--- @return boolean
 function entity.is_registered_for_construction()
     return nil
 end
@@ -1830,15 +2071,18 @@ end
 --- depends on the number of objects targeting this entity which should be small enough.
 --- 
 --- @param force ForceIdentification    
+--- @return boolean
 function entity.is_registered_for_deconstruction(force)
     force = nil
+    return nil
 end
 
 
 --- Is this entity registered for upgrade? If false, it means a construction robot has been dispatched to upgrade it,
 --- or it is not marked for upgrade. This is worst-case O(N) complexity where N is the current number of things in the
 --- upgrade queue.
---- @return nil                         
+--- 
+--- @return boolean
 function entity.is_registered_for_upgrade()
     return nil
 end
@@ -1846,7 +2090,8 @@ end
 
 --- Is this entity registered for repair? If false, it means a construction robot has been dispatched to upgrade it, or
 --- it is not damaged. This is worst-case O(N) complexity where N is the current number of things in the repair queue.
---- @return nil                         
+--- 
+--- @return boolean
 function entity.is_registered_for_repair()
     return nil
 end
@@ -1872,21 +2117,24 @@ end
 
 
 --- Disconnects linked belt from its neighbour.
---- @return nil                         
+--- 
+--- @return nil
 function entity.disconnect_linked_belts()
     return nil
 end
 
 
 --- Gets legs of given SpiderVehicle.
---- @return nil                         
+--- 
+--- @return LuaEntity[]
 function entity.get_spider_legs()
-    return nil
+    return {}
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function entity.help()
     return nil
 end

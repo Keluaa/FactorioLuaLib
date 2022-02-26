@@ -34,7 +34,8 @@ void_energy_source_prototype.object_name = nil
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function void_energy_source_prototype.help()
     return nil
 end

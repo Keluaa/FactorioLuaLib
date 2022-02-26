@@ -52,13 +52,16 @@ circuit_network.object_name = nil
 
 
 --- @param signal SignalID              
+--- @return int                          The current value of the signal.
 function circuit_network.get_signal(signal)
     signal = nil
+    return nil
 end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function circuit_network.help()
     return nil
 end

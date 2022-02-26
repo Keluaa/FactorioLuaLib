@@ -54,13 +54,16 @@ tile.object_name = nil
 --- What type of things can collide with this tile?
 --- 
 --- @param layer CollisionMaskLayer     
+--- @return boolean
 function tile.collides_with(layer)
     layer = nil
+    return nil
 end
 
 
 --- Is this tile marked for deconstruction?
---- @return nil                         
+--- 
+--- @return boolean
 function tile.to_be_deconstructed()
     return nil
 end
@@ -68,18 +71,34 @@ end
 
 --- Orders deconstruction of this tile by the given force.
 --- 
---- @overload fun(force: ForceIdentification)
+--- May raise the following events:
+---  - on_marked_for_deconstruction:
+---    @see on_marked_for_deconstruction@
+---    Raised instantly, conditionally.
+---    Raised if the tile was successfully marked for deconstruction.
+--- 
+--- @overload fun(force: ForceIdentification): LuaEntity
+--- 
 --- @param force ForceIdentification    
 --- @param player PlayerIdentification | nil (Optional) 
+--- @return LuaEntity                    The deconstructible tile proxy created, if any.
 function tile.order_deconstruction(force, player)
     force = nil
     player = nil
+    return nil
 end
 
 
 --- Cancels deconstruction if it is scheduled, does nothing otherwise.
 --- 
+--- May raise the following events:
+---  - on_cancelled_deconstruction:
+---    @see on_cancelled_deconstruction@
+---    Raised instantly, conditionally.
+---    Raised if the tile's deconstruction was successfully cancelled.
+--- 
 --- @overload fun(force: ForceIdentification)
+--- 
 --- @param force ForceIdentification    
 --- @param player PlayerIdentification | nil (Optional) 
 function tile.cancel_deconstruction(force, player)
@@ -89,7 +108,8 @@ end
 
 
 --- All methods and properties that this object supports.
---- @return nil                         
+--- 
+--- @return string
 function tile.help()
     return nil
 end

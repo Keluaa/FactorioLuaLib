@@ -32,7 +32,7 @@ Whatever is the structure of your mod or script:
  - Add an imported module: `+ Add | Import Module` 
  - select the `FactorioLuaLib.iml` this repository
 
-The current API version of the pre-generated files is 1.1.50. 
+The current API version of the pre-generated files is 1.1.55. 
 
 [//]: # (TODO: remember to update this version number at each re-generation)
 

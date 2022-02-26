@@ -50,7 +50,9 @@ settings.object_name = nil
 --- @see LuaPlayer#mod_settings @
 --- 
 --- @param player PlayerIdentification  
+--- @return LuaCustomTable<string, ModSetting>
 function settings.get_player_settings(player)
     player = nil
+    return nil
 end
 
